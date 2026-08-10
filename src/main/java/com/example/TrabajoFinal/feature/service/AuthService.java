@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Responsable únicamente de autenticar usuarios y emitir el JWT correspondiente.
- * La creación/gestión de usuarios vive en {@link UsuarioService} (SRP).
  */
 @Service
 @RequiredArgsConstructor
