@@ -22,6 +22,9 @@ public class AlumnoFaltasService implements IAlumnoFaltasService {
     @Value("${app.alumno.faltas-aviso}")
     private int faltasAviso;
 
+    /**
+     * Lo utilizamos para agregar faltas cada que un asistente pone el ausente.
+     */
     @Override
     @Transactional
     public void registrarFalta(Long idAlumno) {
@@ -31,6 +34,7 @@ public class AlumnoFaltasService implements IAlumnoFaltasService {
 
         alumno.setFaltas(alumno.getFaltas() + 1);
 
+        // Da la baja logica del alumno cuando llega al limite de faltas
         if (alumno.getFaltas() >= limiteFaltas) {
             alumno.setActivo(false);
             log.info("Alumno {} {} dado de baja por alcanzar el limite de faltas ({})",
@@ -40,6 +44,11 @@ public class AlumnoFaltasService implements IAlumnoFaltasService {
         alumnoRepository.save(alumno);
     }
 
+
+    /**
+     * Lo vamos a utilizar cada que se carguen los alumnos para dar aviso
+     * de que llegan al limite de faltas.
+     */
     @Override
     @Transactional(readOnly = true)
     public boolean estaProximoALimite(Long idAlumno) {

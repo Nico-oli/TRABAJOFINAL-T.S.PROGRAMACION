@@ -11,7 +11,7 @@ public class AsistenciaMapper {
 
     /**
      * Recibe el AlumnoResponse ya construido (en lugar de reconstruirlo acá)
-     * para no volver a golpear la base de datos por cada asistencia y para
+     * para no volver a llamar la base de datos por cada asistencia y para
      * evitar anidar recursivamente la lista de asistencias dentro de sí misma.
      */
     public static AsistenciaResponse toResponse(Asistencia asistencia, AlumnoResponse alumno){

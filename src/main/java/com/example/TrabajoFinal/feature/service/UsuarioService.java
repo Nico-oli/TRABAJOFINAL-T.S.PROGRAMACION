@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Gestión de usuarios del sistema (alta, y a futuro: baja lógica, cambio de rol, etc.).
- * Se separa de {@link AuthService} porque son responsabilidades distintas:
+ * Se separa de AuthService porque son responsabilidades distintas:
  * AuthService valida credenciales y emite tokens; UsuarioService administra
  * el ciclo de vida de la entidad Usuario.
  */
@@ -26,8 +26,8 @@ public class UsuarioService {
     private final PasswordEncoder passwordEncoder;
 
     /**
-     * Crea un nuevo usuario (Administrador o Asistente). Pensado para ser invocado
-     * únicamente por un Administrador ya autenticado (ver reglas en SecurityConfig).
+     * Crea un nuevo usuario (Administrador o Asistente). Pensado para ser utilizado
+     * únicamente por un Administrador ya autenticado.
      */
     @Transactional
     public UsuarioResponse crear(RegisterRequest request) {

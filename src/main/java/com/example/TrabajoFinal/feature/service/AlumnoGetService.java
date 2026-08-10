@@ -27,12 +27,11 @@ public class AlumnoGetService implements IAlumnoGetService {
     private final CursoRepository cursoRepository;
     private final AsistenciaRepository asistenciaRepository;
 
+
+
     /**
-     * Lista los alumnos activos de un curso. Para cada uno solo se informa
-     * el conteo de inasistencias (no el detalle), y ese conteo se calcula
-     * con una única consulta agregada para todo el curso, en vez de una
-     * consulta por alumno, para que la escalabilidad no dependa de la
-     * cantidad de alumnos del curso.
+     * Este se utiliza cuando no requerimos la informacion concreta de un alumno
+     * traemos la informacion necesaria para no exponer datos.
      */
     @Override
     @Transactional(readOnly = true)
@@ -57,7 +56,7 @@ public class AlumnoGetService implements IAlumnoGetService {
 
     /**
      * Trae un alumno puntual junto con el detalle completo de sus asistencias
-     * (a diferencia del listado por curso, que solo devuelve el conteo).
+     * (a diferencia del listado por curso, que solo devuelve un conteo de inAsistencias).
      */
     @Override
     @Transactional(readOnly = true)
@@ -71,7 +70,7 @@ public class AlumnoGetService implements IAlumnoGetService {
         List<Asistencia> asistencias = asistenciaRepository.findByAlumnoIdOrderByFechaDesc(idAlumno);
 
         // Versión sin el detalle de asistencias, para no duplicarla dentro
-        // de cada AsistenciaResponse anidado (evita recursión/payload inflado).
+        // de cada AsistenciaResponse anidada.
         AlumnoResponse alumnoSinDetalle = AlumnoMapper.toResponse(alumno, inAsistencias);
 
         List<AsistenciaResponse> asistenciasResponse = asistencias.stream()

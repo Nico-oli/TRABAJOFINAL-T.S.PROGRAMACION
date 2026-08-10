@@ -21,20 +21,15 @@ public class AlumnoCreateService implements IAlumnoCreateService{
 
 
     @Override
-    public AlumnoResponse createAlumno(AlumnoRequest dto){
+    public void createAlumno(AlumnoRequest dto){
 
-        /* Buscamos si el alumno se encuentra en la base de datos */
         if(alumnoRepository.findByDni(dto.dni()).isPresent()) throw new BadRequestException("El alumno ya existe");
 
-        /* Buscamos el curso por su id */
         Curso curso = cursoRepository.findByIdAndActivoTrue(dto.idCurso())
                 .orElseThrow(() -> new ResourceNotFoundException("El curso no fue encontrado"));
 
         Alumno alumno = AlumnoMapper.toEntity(dto, curso);
 
-        Alumno guardado = alumnoRepository.save(alumno);
-
-        /* Al ser un alumno nuevo no va a necesitar inAsistencias */
-        return AlumnoMapper.toResponse(guardado, 0);
+        alumnoRepository.save(alumno);
     }
 }

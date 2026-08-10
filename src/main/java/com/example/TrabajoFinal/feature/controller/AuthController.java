@@ -39,7 +39,6 @@ public class AuthController {
     }
 
     /**
-     * Alta de nuevos usuarios (Administrador o Asistente).
      * Restringido a usuarios ya autenticados con rol ADMINISTRADOR
      * (ver regla equivalente a nivel de URL en SecurityConfig, y la
      * anotación @PreAuthorize acá abajo como segunda capa de defensa).
