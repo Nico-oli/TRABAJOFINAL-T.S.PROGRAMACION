@@ -16,4 +16,6 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
     boolean existsByDni(Long dni);
 
     List<Alumno> findByCursoIdAndActivoTrue(Long cursoId);
+
+    Optional<Alumno> findByIdAndActivoTrue(Long id);
 }

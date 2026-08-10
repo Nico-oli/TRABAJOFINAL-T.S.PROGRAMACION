@@ -56,4 +56,14 @@ public class Alumno {
     @Builder.Default
     @Column(nullable = false)
     private boolean activo = true;
+
+    /**
+     * Cantidad de faltas (inasistencias) acumuladas por el alumno. Se guarda
+     * en el propio alumno (en vez de recalcularla siempre desde Asistencia)
+     * para poder disparar la baja lógica automática apenas se alcanza el
+     * límite configurado, y para poder avisar cuando se está acercando a él.
+     */
+    @Builder.Default
+    @Column(nullable = false)
+    private Integer faltas = 0;
 }

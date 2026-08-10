@@ -2,11 +2,16 @@ package com.example.TrabajoFinal.feature.Mappers;
 
 import com.example.TrabajoFinal.feature.dtos.AlumnoRequest;
 import com.example.TrabajoFinal.feature.dtos.AlumnoResponse;
+import com.example.TrabajoFinal.feature.dtos.AsistenciaResponse;
 import com.example.TrabajoFinal.feature.models.Alumno;
 import com.example.TrabajoFinal.feature.models.Curso;
 
+import java.util.List;
+
 public class AlumnoMapper {
 
+    private AlumnoMapper() {
+    }
 
     public static Alumno toEntity(AlumnoRequest dto, Curso curso){
         return Alumno.builder()
@@ -18,13 +23,26 @@ public class AlumnoMapper {
                 .build();
     }
 
-    public static AlumnoResponse toResponse(Alumno a, Integer asistencias){
+    /**
+     * Usado cuando no corresponde exponer el detalle de asistencias
+     * (alta de alumno, listado general por curso).
+     */
+    public static AlumnoResponse toResponse(Alumno a, Integer inAsistencias){
+        return toResponse(a, inAsistencias, null);
+    }
+
+    /**
+     * Usado cuando se consulta un alumno puntual, donde además del conteo
+     * de inasistencias se devuelve el detalle completo de asistencias.
+     */
+    public static AlumnoResponse toResponse(Alumno a, Integer inAsistencias, List<AsistenciaResponse> asistencias){
         return new AlumnoResponse(
                 a.getId(),
                 a.getNombre(),
                 a.getApellido(),
                 CursoMapper.toResponse(a.getCurso()),
                 a.getFechaNacimiento(),
+                inAsistencias,
                 asistencias
         );
     }
