@@ -4,6 +4,9 @@ import jakarta.validation.constraints.*;
 
 public record CursoRequest(
         @NotBlank(message = "El nombre del curso debe ser completado")
+        @Pattern(
+                regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+$",
+                message = "El nombre unicamente puede contener letras")
         String nombre,
         @NotNull(message = "El año Lectivo debe ser completado")
         @Positive(message = "El año Lectivo deben ser numeros positivos")

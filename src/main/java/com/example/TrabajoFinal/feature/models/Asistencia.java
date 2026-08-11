@@ -51,15 +51,16 @@ public class Asistencia {
     @JoinColumn(name = "curso_id")
     private Curso curso;
 
+    @Builder.Default
     @Column(nullable = false)
-    private LocalDate fecha;
+    private LocalDate fecha = LocalDate.now();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private EstadoAsistencia estado;
 
     /**
-     * Motivo de la justificación o cualquier observación relevante.
+     * Motivo de la justificación o cualquier observación.
      */
     @Column(length = 255)
     private String observacion;
@@ -70,4 +71,13 @@ public class Asistencia {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "registrado_por_id")
     private Usuario registradoPor;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean eliminado = false;
+
+
+    public void eliminar(){
+        this.eliminado = true;
+    }
 }

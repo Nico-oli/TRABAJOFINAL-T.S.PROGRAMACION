@@ -12,7 +12,7 @@ public record AlumnoResponse(
         Integer inAsistencias,
         /**
          * Listado completo de asistencias del alumno. Solo se completa cuando
-         * se consulta un alumno puntual por id; en los listados generales
+         * se consulta un alumno puntual por id, en los listados generales
          * (por curso) queda en null y solo viaja el conteo de inAsistencias.
          */
         List<AsistenciaResponse> asistencias

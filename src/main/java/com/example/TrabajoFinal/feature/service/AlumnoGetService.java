@@ -65,18 +65,16 @@ public class AlumnoGetService implements IAlumnoGetService {
         Alumno alumno = alumnoRepository.findByIdAndActivoTrue(idAlumno)
                 .orElseThrow(() -> new ResourceNotFoundException("El alumno no fue encontrado"));
 
-        int inAsistencias = (int) asistenciaRepository.countByAlumnoIdAndEstado(idAlumno, EstadoAsistencia.AUSENTE);
-
         List<Asistencia> asistencias = asistenciaRepository.findByAlumnoIdOrderByFechaDesc(idAlumno);
 
         // Versión sin el detalle de asistencias, para no duplicarla dentro
         // de cada AsistenciaResponse anidada.
-        AlumnoResponse alumnoSinDetalle = AlumnoMapper.toResponse(alumno, inAsistencias);
+        AlumnoResponse alumnoSinDetalle = AlumnoMapper.toResponse(alumno, alumno.getFaltas());
 
         List<AsistenciaResponse> asistenciasResponse = asistencias.stream()
                 .map(asistencia -> AsistenciaMapper.toResponse(asistencia, alumnoSinDetalle))
                 .toList();
 
-        return AlumnoMapper.toResponse(alumno, inAsistencias, asistenciasResponse);
+        return AlumnoMapper.toResponse(alumno, alumno.getFaltas(), asistenciasResponse);
     }
 }

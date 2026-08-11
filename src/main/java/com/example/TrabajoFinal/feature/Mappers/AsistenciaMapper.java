@@ -1,19 +1,29 @@
 package com.example.TrabajoFinal.feature.Mappers;
 
 import com.example.TrabajoFinal.feature.dtos.AlumnoResponse;
+import com.example.TrabajoFinal.feature.dtos.AsistenciaRequest;
 import com.example.TrabajoFinal.feature.dtos.AsistenciaResponse;
+import com.example.TrabajoFinal.feature.models.Alumno;
 import com.example.TrabajoFinal.feature.models.Asistencia;
+import com.example.TrabajoFinal.feature.models.Curso;
+import com.example.TrabajoFinal.feature.models.Usuario;
 
 public class AsistenciaMapper {
 
     private AsistenciaMapper() {
     }
 
-    /**
-     * Recibe el AlumnoResponse ya construido (en lugar de reconstruirlo acá)
-     * para no volver a llamar la base de datos por cada asistencia y para
-     * evitar anidar recursivamente la lista de asistencias dentro de sí misma.
-     */
+    public static Asistencia toEntity(AsistenciaRequest dto, Curso curso, Alumno alumno, Usuario asistente){
+        return Asistencia.builder()
+                .alumno(alumno)
+                .curso(curso)
+                .observacion(dto.observacion())
+                .estado(dto.estadoAsistencia())
+                .registradoPor(asistente)
+                .build();
+    }
+
+
     public static AsistenciaResponse toResponse(Asistencia asistencia, AlumnoResponse alumno){
         return new AsistenciaResponse(
                 alumno,

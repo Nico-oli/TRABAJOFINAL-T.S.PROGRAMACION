@@ -57,13 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    /**
-     * Carga el usuario y, si el token es válido para él, lo autentica en el
-     * SecurityContext. Si el usuario del token ya no existe (por ejemplo, fue
-     * eliminado luego de emitido el token), simplemente no autentica: la
-     * request sigue como anónima y la capa de autorización la rechazará con
-     * un 401/403 normal, en vez de propagar una excepción no controlada (500).
-     */
+
     private void authenticateIfValid(HttpServletRequest request, String jwt, String userEmail) {
         UserDetails userDetails;
         try {
