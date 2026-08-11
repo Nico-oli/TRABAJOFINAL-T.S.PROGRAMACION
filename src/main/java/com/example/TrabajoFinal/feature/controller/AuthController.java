@@ -28,21 +28,14 @@ public class AuthController {
     private final AuthService authService;
     private final UsuarioService usuarioService;
 
-    /**
-     * Inicio de sesión. Público. Devuelve el JWT a usar en el header
-     * "Authorization: Bearer <token>" para el resto de los endpoints.
-     */
+
     @PostMapping("/login")
     public ResponseEntity<BaseResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest request) {
         LoginResponse response = authService.login(request);
         return ResponseEntity.ok(BaseResponse.ok(response, "Inicio de sesión exitoso."));
     }
 
-    /**
-     * Restringido a usuarios ya autenticados con rol ADMINISTRADOR
-     * (ver regla equivalente a nivel de URL en SecurityConfig, y la
-     * anotación @PreAuthorize acá abajo como segunda capa de defensa).
-     */
+
     @PostMapping("/register")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<BaseResponse<UsuarioResponse>> register(@Valid @RequestBody RegisterRequest request) {

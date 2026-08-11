@@ -18,6 +18,8 @@ public record AlumnoActualizarRequest(
         Long idCurso,
         @PositiveOrZero(message = "Las faltas no puden ser menor a 0")
         @Max(value = 15, message = "Las faltas tienen un limite maximo de 15")
-        Integer faltas
+        Integer faltas,
+        Boolean adicional
+
 ) {
 }

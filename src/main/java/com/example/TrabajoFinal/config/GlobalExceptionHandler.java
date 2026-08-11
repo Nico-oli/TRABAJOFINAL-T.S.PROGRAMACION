@@ -15,11 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    /**
-     * Maneja las excepciones de negocio (esperadas). Se loguean en WARN porque
-     * son parte del flujo normal de la aplicación (credenciales inválidas,
-     * recurso no encontrado, etc.), no bugs.
-     */
+
     @ExceptionHandler(CustomException.class)
     public ProblemDetail handleCustomException(CustomException ex) {
         log.warn("{}: {}", ex.getClass().getSimpleName(), ex.getMessage());
@@ -35,7 +31,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Maneja las excepciones de validación de @Valid en los DTOs de entrada.
+     * Maneja las excepciones de validación.
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail handleValidation(MethodArgumentNotValidException ex) {

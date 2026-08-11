@@ -26,18 +26,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * Configuración de seguridad basada en JWT (stateless, sin sesiones de servidor).
- *
- * Reglas generales:
- * - POST /api/auth/login       -> público
- * - POST /api/auth/register    -> solo ADMINISTRADOR (además reforzado con @PreAuthorize
- *                                  en AuthController, como segunda capa de defensa)
- * - /h2-console/**             -> público (solo para desarrollo)
- * - /api/admin/**              -> solo ADMINISTRADOR
- * - /api/asistencias/**        -> ADMINISTRADOR y ASISTENTE
- * - cualquier otro endpoint    -> requiere estar autenticado
- */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
@@ -49,12 +37,7 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final JwtAccessDeniedHandler accessDeniedHandler;
 
-    /**
-     * Orígenes permitidos para CORS, configurables por ambiente (application.properties
-     * o variable de entorno CORS_ALLOWED_ORIGINS). Se evita a propósito usar "*" acá:
-     * combinar un origen comodín con allowCredentials(true) permite que cualquier sitio
-     * web haga requests autenticadas contra la API, lo cual es un riesgo de seguridad.
-     */
+
     @Value("${app.cors.allowed-origins}")
     private List<String> allowedOrigins;
 
@@ -86,9 +69,6 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        // Desde Spring Security 7, DaoAuthenticationProvider ya no tiene
-        // constructor vacío: el UserDetailsService se pasa obligatoriamente
-        // por constructor (setUserDetailsService fue eliminado).
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;

@@ -20,7 +20,6 @@ import io.jsonwebtoken.security.Keys;
 
 /**
  * Encapsula toda la logica de creacion y validacion de JSON Web Tokens.
- * Usa la API moderna de jjwt 0.12.x (sin metodos deprecados tipo setSubject/setClaims).
  */
 @Service
 public class JwtService {

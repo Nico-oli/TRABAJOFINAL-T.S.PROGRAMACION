@@ -49,9 +49,6 @@ public class DataInitializer implements CommandLineRunner {
 
         usuarioRepository.save(admin);
 
-        // Importante: nunca loguear la contraseña, ni siquiera la default.
-        // Que quede en un log (archivo, consola, agregador externo) es una fuga de credenciales.
-        log.info("Usuario Administrador por defecto creado con email '{}'. " +
-                "Cambie la contraseña por defecto apenas inicie sesión por primera vez.", defaultAdminEmail);
+        log.info("Usuario Administrador por defecto creado con email '{}'.", defaultAdminEmail);
     }
 }

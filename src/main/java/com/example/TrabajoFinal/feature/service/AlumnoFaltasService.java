@@ -22,23 +22,30 @@ public class AlumnoFaltasService implements IAlumnoFaltasService {
     @Value("${app.alumno.faltas-aviso}")
     private int faltasAviso;
 
+    @Value("${app.alumno.limite-faltas-adicionales}")
+    private int limiteAdicional;
+
+    @Value("${alumno.adicionales-aviso}")
+    private int adicionalAviso;
+
     /**
      * Lo utilizamos para agregar faltas cada que un asistente pone el ausente.
      */
     @Override
     @Transactional
-    public void registrarFalta(Long idAlumno) {
-
-        Alumno alumno = alumnoRepository.findByIdAndActivoTrue(idAlumno)
-                .orElseThrow(() -> new ResourceNotFoundException("El alumno no fue encontrado"));
+    public void registrarFalta(Alumno alumno) {
 
         alumno.setFaltas(alumno.getFaltas() + 1);
 
         // Da la baja logica del alumno cuando llega al limite de faltas
-        if (alumno.getFaltas() >= limiteFaltas) {
+        if (alumno.getFaltas() >= limiteFaltas && !alumno.isAdicional()) {
             alumno.setActivo(false);
             log.info("Alumno {} {} dado de baja por alcanzar el limite de faltas ({})",
                     alumno.getNombre(), alumno.getApellido(), limiteFaltas);
+        }else if(alumno.getFaltas() >= limiteAdicional) {
+            alumno.setActivo(false);
+            log.info("Alumno {} {} dado de baja por alcanzar el limite adicional ({})",
+                    alumno.getNombre(), alumno.getApellido(), alumno.getFaltas());
         }
 
         alumnoRepository.save(alumno);
@@ -46,8 +53,7 @@ public class AlumnoFaltasService implements IAlumnoFaltasService {
 
 
     /**
-     * Lo vamos a utilizar cada que se carguen los alumnos para dar aviso
-     * de que llegan al limite de faltas.
+     * Funcion que permite saber que alumno esta proximo al limite de faltas
      */
     @Override
     @Transactional(readOnly = true)
@@ -55,6 +61,10 @@ public class AlumnoFaltasService implements IAlumnoFaltasService {
 
         Alumno alumno = alumnoRepository.findByIdAndActivoTrue(idAlumno)
                 .orElseThrow(() -> new ResourceNotFoundException("El alumno no fue encontrado"));
+
+        if(alumno.isAdicional()){
+            return alumno.getFaltas() >= adicionalAviso;
+        }
 
         return alumno.getFaltas() >= faltasAviso;
     }

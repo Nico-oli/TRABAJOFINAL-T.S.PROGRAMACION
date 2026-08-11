@@ -6,6 +6,7 @@ import com.example.TrabajoFinal.feature.dtos.AlumnoRequest;
 import com.example.TrabajoFinal.feature.dtos.AlumnoResponse;
 import com.example.TrabajoFinal.feature.service.IActualizarAlumno;
 import com.example.TrabajoFinal.feature.service.IAlumnoCreateService;
+import com.example.TrabajoFinal.feature.service.IAlumnoDeleteService;
 import com.example.TrabajoFinal.feature.service.IAlumnoGetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class AlumnoController {
     private final IAlumnoCreateService createService;
     private final IAlumnoGetService getService;
     private final IActualizarAlumno actualizarService;
+    private final IAlumnoDeleteService deleteService;
 
     @PostMapping("/alumno")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
@@ -77,6 +79,17 @@ public class AlumnoController {
                 response,
                   "Alumno actualizado con exito"
           )
+        );
+    }
+
+    @DeleteMapping("/alumno/{idAlumno}")
+    public  ResponseEntity<BaseResponse<?>> softDelete(
+            @PathVariable Long idAlumno
+    ){
+        deleteService.deleteAlumno(idAlumno);
+
+        return ResponseEntity.ok(
+                BaseResponse.noContent("Se elimino con exito")
         );
     }
 

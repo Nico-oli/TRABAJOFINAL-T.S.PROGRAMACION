@@ -66,4 +66,8 @@ public class Alumno {
     @Builder.Default
     @Column(nullable = false)
     private Integer faltas = 0;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean adicional = false;
 }
