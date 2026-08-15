@@ -15,7 +15,7 @@
 // pega al backend real, ni siquiera para loguearse. Volver esta
 // constante a `false` antes de conectar con el backend real y antes de
 // cualquier entrega.
-export const PREVIEW_MODE = true;
+export const PREVIEW_MODE = false;
 
 // Rol con el que "loguea" el formulario de login cuando PREVIEW_MODE
 // está en true. No afecta la navegación directa por URL a /asistente o
