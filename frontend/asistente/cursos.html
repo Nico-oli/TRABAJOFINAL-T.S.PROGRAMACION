@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Mis cursos · Asistencia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <div class="app-content">
+    <header class="app-header">
+      <div class="app-header-brand">
+        <div class="kicker">Asistencia</div>
+        <h2 id="app-header-title"></h2>
+      </div>
+      <span id="app-header-role" class="tag"></span>
+      <nav class="tab-bar" id="tab-bar"></nav>
+    </header>
+    <main class="app-main">
+      <p id="course-list-error" class="text-muted" style="color:var(--color-accent-800)" hidden></p>
+      <div id="course-list" class="card-grid"></div>
+    </main>
+  </div>
+</div>
+
+<script type="module" src="../js/pages/asistente-cursos.js"></script>
+</body>
+</html>

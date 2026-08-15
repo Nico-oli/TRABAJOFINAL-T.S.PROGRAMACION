@@ -1,0 +1,86 @@
+/*
+ * Tokens del sistema de diseño "Industry", tomados del mockup en
+ * Claude Design (Attendance App.dc.html) para que la app real use
+ * exactamente la misma paleta, tipografía y escala.
+ *
+ * TODO: el mockup fuente no define ningún color de alerta ámbar/naranja
+ * (no hay token de "warning" en el sistema Industry). El estado "En
+ * riesgo" usa el mismo azul-grisáceo de acento (--color-accent) con
+ * variante outline, y "Excedido" usa --color-accent sólido. Si en algún
+ * momento se agrega un token ámbar al sistema de diseño, sumarlo acá.
+ */
+
+:root {
+  /* — color — */
+  --color-bg: #f2f2f3;
+  --color-surface: #e9e9ea;
+  --color-text: #1d1f20;
+  --color-accent: #053769;
+  --color-accent-2: #728fab;
+  --color-divider: color-mix(in srgb, #030303 16%, transparent);
+
+  --color-neutral-100: #f5f5f8;
+  --color-neutral-200: #e7e7ea;
+  --color-neutral-300: #d4d4d7;
+  --color-neutral-400: #b7b7ba;
+  --color-neutral-500: #98989b;
+  --color-neutral-600: #7a7a7d;
+  --color-neutral-700: #5d5d60;
+  --color-neutral-800: #424244;
+  --color-neutral-900: #2b2b2d;
+
+  --color-accent-100: #eef6ff;
+  --color-accent-200: #d6ebff;
+  --color-accent-300: #b5d9fd;
+  --color-accent-400: #94bce3;
+  --color-accent-500: #749dc4;
+  --color-accent-600: #597ea3;
+  --color-accent-700: #416180;
+  --color-accent-800: #2c455d;
+  --color-accent-900: #1d2d3d;
+
+  /* — tipografía — */
+  --font-heading: "Barlow Condensed", system-ui, sans-serif;
+  --font-heading-weight: 600;
+  --font-body: "Barlow", system-ui, sans-serif;
+
+  /* — espaciado — */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* — radios (estética wireframe: los componentes usan 0, ver
+       components.css; se dejan definidos por si algún componente
+       puntual necesita una esquina redondeada, como el diálogo) — */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+
+  /* — elevación — */
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2b2b2d 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2b2b2d 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2b2b2d 22%, transparent);
+
+  /* — targets táctiles (requisito: mínimo 44px) — */
+  --tap-target-min: 44px;
+
+  /* Alto aproximado de la tab-bar fija (mobile/tablet, ver .tab-bar en
+     components.css) — usado para que .app-main y .toast dejen el
+     espacio libre justo debajo de ella y no quede contenido tapado. */
+  --tab-bar-height: 64px;
+
+  /* Alto aproximado del header fijo en desktop (1024px+, ver .app-header
+     en base.css) — ahí el nav vive DENTRO del header, no en una sidebar
+     ni en una tab-bar abajo, así que .app-main necesita padding-top en
+     vez de padding-bottom para no quedar tapado. */
+  --app-header-height-desktop: 72px;
+
+  /* — breakpoints (documentales; los media queries usan el valor en px
+       directamente, CSS no soporta var() dentro de @media) — */
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Recuperar contraseña · Asistencia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./css/variables.css">
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/components.css">
+</head>
+<body>
+
+<!--
+  TODO: pantalla no incluida en el mockup original
+  (/design-reference/attendance-app-mockup.html). El link "¿Olvidaste tu
+  contraseña?" del login era un placeholder sin acción (onClick noop) en el
+  diseño fuente. Esta pantalla es un mínimo consistente con el sistema
+  "Industry" (mismo header, tipografía, spacing, botones que el resto de
+  la app) para que el link deje de ser un callejón sin salida, pero el
+  flujo real (qué pasa después de "Enviar instrucciones", si hay un mail,
+  un token de un solo uso, etc.) todavía no está definido — hay que
+  confirmarlo con el diseño antes de conectarlo a un endpoint real.
+-->
+
+<div class="auth-shell">
+  <form class="auth-card" id="recover-form" novalidate>
+    <div class="text-center" style="margin-bottom:8px">
+      <div class="kicker">Asistencia</div>
+      <h1 style="margin:6px 0 0">Recuperar contraseña</h1>
+      <div class="text-muted" style="font-size:12px;margin-top:4px">
+        Ingresá tu email y te enviamos instrucciones para restablecerla.
+      </div>
+    </div>
+
+    <p id="recover-message" class="text-muted" style="font-size:13px" hidden></p>
+
+    <div class="field">
+      <label for="recover-email">Usuario</label>
+      <input class="input" id="recover-email" type="email" required placeholder="nombre@institucion.edu.ar">
+    </div>
+
+    <button class="btn btn-primary btn-block" type="submit">Enviar instrucciones</button>
+
+    <div class="auth-links" style="justify-content:center">
+      <a href="./index.html">‹ Volver a iniciar sesión</a>
+    </div>
+  </form>
+</div>
+
+<script type="module" src="./js/pages/recuperar-contrasena.js"></script>
+</body>
+</html>

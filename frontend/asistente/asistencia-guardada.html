@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Listo · Asistencia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <div class="app-content">
+    <header class="app-header">
+      <div class="app-header-brand">
+        <div class="kicker">Asistencia</div>
+        <h2 id="app-header-title"></h2>
+      </div>
+      <span id="app-header-role" class="tag"></span>
+      <nav class="tab-bar" id="tab-bar"></nav>
+    </header>
+    <main class="app-main" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding-top:60px;text-align:center">
+      <div style="width:64px;height:64px;border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:center">
+        <img src="../assets/icons/check.svg" alt="" width="28" height="28">
+      </div>
+      <h3 style="margin:0">Asistencia guardada</h3>
+      <p id="done-subtitle" class="text-muted" style="font-size:13px;margin:0"></p>
+      <button class="btn btn-primary" id="done-back-btn">Volver a mis cursos</button>
+    </main>
+  </div>
+</div>
+
+<script type="module" src="../js/pages/asistente-asistencia-guardada.js"></script>
+</body>
+</html>

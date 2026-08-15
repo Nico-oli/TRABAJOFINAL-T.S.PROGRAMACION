@@ -1,0 +1,441 @@
+/* ══════════════════════════════════════════════════════════════════
+   Componentes — estética wireframe "Industry": cuadrados, fondo
+   transparente, borde de 1px. Todos los targets interactivos respetan
+   un mínimo de 44px (--tap-target-min).
+   ══════════════════════════════════════════════════════════════════ */
+
+/* — botones — */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: var(--tap-target-min);
+  cursor: pointer;
+  text-decoration: none;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--color-text);
+  background: transparent;
+  border: 1px solid var(--color-divider);
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
+  border-radius: 0;
+}
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { background: var(--color-accent); color: var(--color-bg); border-color: var(--color-accent); }
+.btn-primary:hover { background: var(--color-accent-600); }
+.btn-primary:active { background: var(--color-accent-700); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+.btn-ghost { color: var(--color-accent); border-color: transparent; padding-inline: var(--space-1); }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.btn-block { width: 100%; }
+
+/* — formularios — */
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field > label {
+  font-size: 12px;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+.input {
+  width: 100%;
+  min-height: var(--tap-target-min);
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--color-text);
+  caret-color: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+  border-radius: 0;
+}
+.input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+textarea.input { min-height: 90px; resize: vertical; }
+
+/* — tarjetas — */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-divider);
+  background: transparent;
+}
+.card-kicker { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+.card-title { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 17px; line-height: 1.2; }
+.card-body { margin: 0; font-size: 13px; opacity: 0.8; }
+.card-meta { display: flex; align-items: center; gap: 6px; font-size: 11px; color: color-mix(in srgb, var(--color-text) 50%, transparent); }
+.card-stat { font-family: var(--font-heading); font-size: 26px; }
+.card-clickable { cursor: pointer; }
+.card-clickable:hover { background: color-mix(in srgb, var(--color-text) 4%, transparent); }
+.elev-sm { box-shadow: var(--shadow-sm); }
+.elev-md { box-shadow: var(--shadow-md); }
+
+.card-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+/* — tags de estado —
+   Fiel al mockup fuente: no existe token ámbar en el sistema "Industry",
+   así que "En riesgo" y "Excedido" usan variantes del mismo azul-grisáceo
+   de acento (outline vs. relleno) en lugar de un color de warning nuevo. */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  padding: 3px 10px;
+  border-radius: 0;
+  white-space: nowrap;
+}
+.tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
+.tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+/* — listas (alumnos, cursos, historial) — */
+.list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--tap-target-min);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-divider);
+}
+.list-row-clickable { cursor: pointer; }
+.list-row-clickable:hover { background: color-mix(in srgb, var(--color-text) 4%, transparent); }
+.list-row-title { font-size: 14px; }
+.list-row-subtitle { font-size: 11px; opacity: 0.55; }
+.list-row-empty { padding: var(--space-4) 0; font-size: 13px; opacity: 0.6; text-align: center; }
+
+/* — checkbox de asistencia (marcar ausente) — */
+.attendance-toggle {
+  width: 28px;
+  height: 28px;
+  min-width: var(--tap-target-min);
+  min-height: var(--tap-target-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid var(--color-divider);
+}
+.attendance-toggle .box {
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--color-divider);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  line-height: 1;
+  color: transparent;
+}
+.attendance-toggle.is-absent .box {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* — barra de progreso (informes) — */
+.progress {
+  height: 6px;
+  background: var(--color-neutral-200);
+  position: relative;
+}
+.progress > span {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+}
+
+/* — filas de "Asistencia por alumno" (admin-informes) — */
+.report-row { margin-bottom: 10px; }
+.report-row-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+
+/* — decoración de fondo de las páginas de Administrador, sólo desktop
+   (ver el markup en admin/*.html) — mismo criterio que .auth-deco del
+   login, pero como capa fixed de viewport en vez de vivir dentro de
+   .auth-card, ya que acá el contenido usa .app-header/.app-main en vez
+   del layout de auth. Detrás de todo (z-index:0); .app-main-wide se sube
+   por encima con position:relative;z-index:1 (ver @media 1024px más
+   abajo). Genérica: cada página trae su propio <path> (geometría propia
+   en su <defs>), esta capa sólo define el estilo/posicionamiento común. */
+.app-deco-layer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.app-deco {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  opacity: 0.50;
+  fill: none;
+  stroke: var(--color-text);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* top-right debajo del header fijo (si no, queda tapado por su fondo
+   opaco de ancho completo) */
+.app-deco-tr { top: calc(var(--app-header-height-desktop) + var(--space-4)); right: -24px; }
+.app-deco-bl { bottom: -24px; left: -24px; transform: rotate(180deg); }
+
+@media (min-width: 1024px) {
+  .app-deco-layer { display: block; }
+}
+
+/* — diálogo modal — */
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: color-mix(in srgb, var(--color-neutral-900) 55%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+/* El display:flex de arriba es una regla de autor, y le gana a la regla
+   [hidden]{display:none} del user-agent sin importar especificidad (el
+   origen se decide antes que la especificidad en el cascade). Sin esto,
+   backdrop.hidden = true en JS no tiene ningún efecto visual: el modal
+   queda tapando la pantalla y bloqueando clics aunque el atributo esté. */
+.dialog-backdrop[hidden] { display: none; }
+.dialog {
+  width: min(420px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-bg);
+  border: 1px solid var(--color-divider);
+  box-shadow: var(--shadow-lg);
+}
+.dialog-title { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 20px; }
+.dialog-body { font-size: 14px; opacity: 0.85; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-2); }
+
+/* — toast — */
+.toast {
+  position: fixed;
+  left: var(--space-4);
+  right: var(--space-4);
+  bottom: calc(var(--tab-bar-height) + var(--space-4));
+  z-index: 200;
+  background: var(--color-accent-900);
+  color: var(--color-bg);
+  padding: 10px 14px;
+  font-size: 13px;
+  text-align: center;
+}
+.toast[hidden] { display: none; }
+
+/* — icono botón "volver" — */
+.btn-back {
+  align-self: flex-start;
+  padding-left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.btn-back svg { width: 14px; height: 14px; }
+
+/* ══════════════════════════════════════════════════════════════════
+   Tab bar — fija abajo de todo el viewport en mobile/tablet (no en el
+   flujo normal del documento, para que no quede "flotando" en pantallas
+   con poco contenido); el padding-bottom que le hace lugar en .app-main
+   está en base.css. En desktop (>=1024px) deja de estar fija: pasa a
+   vivir DENTRO de .app-header como el grupo de nav de una fila única
+   (ver el bloque @media (min-width: 1024px) de .app-header en base.css).
+   ══════════════════════════════════════════════════════════════════ */
+.tab-bar {
+  display: flex;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 20;
+  border-top: 1px solid var(--color-divider);
+  background: var(--color-bg);
+  padding: 4px 4px calc(env(safe-area-inset-bottom, 0px) + 4px);
+}
+.tab-bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: var(--tap-target-min);
+  padding: 8px 2px;
+  background: none;
+  border: none;
+  border-top: 2px solid transparent;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 10.5px;
+  cursor: pointer;
+  /* Gris sólido de la propia rampa --color-neutral (no opacity sobre
+     --color-text): se lee bien y sigue siendo wireframe/gris-azulado. */
+  color: var(--color-neutral-700);
+}
+.tab-bar-item.is-active {
+  border-top-color: var(--color-accent);
+  color: var(--color-accent-800);
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .stat-grid { grid-template-columns: repeat(3, 1fr); }
+  .card-grid.card-grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+}
+
+@media (min-width: 1024px) {
+  /* Reemplaza la sidebar vertical anterior: ahora el nav vive DENTRO de
+     .app-header (ver base.css) como una fila más, no como columna fija
+     al costado. Se resetea todo lo específico de la sidebar (posición,
+     ancho, alto, bordes) — nada de eso debe quedar pisando por encima. */
+  .tab-bar {
+    position: static;
+    width: auto;
+    height: auto;
+    z-index: auto;
+    border-top: none;
+    border-right: none;
+    padding: 0;
+    gap: var(--space-1);
+  }
+  .tab-bar-item {
+    /* flex:none sigue siendo necesario acá: sin esto, cada ítem vuelve a
+       crecer para repartirse el ancho disponible de más (mismo bug que
+       el de la sidebar, pero en el eje horizontal). El indicador de
+       "activo" NO se redeclara: se hereda tal cual de la regla base de
+       arriba (border-top de acento), igual que en mobile. */
+    flex: none;
+    padding: 8px var(--space-3);
+    font-size: 13px;
+  }
+  .stat-grid { grid-template-columns: repeat(3, 1fr); }
+
+  /* — Ancho mayor en desktop para las 7 páginas de Administrador
+     (.app-main-wide, sumada a .app-main en cada admin/*.html): .app-main
+     ya tiene un max-width:720px fijo (base.css) pensado para columnas de
+     listas/cards; acá lo pisamos con uno más ancho (misma especificidad,
+     pero components.css carga después de base.css). position:relative;
+     z-index:1 para quedar por encima de .app-deco-layer (z-index:0, ver
+     arriba). El escalado del contenido interno de cada página vive
+     scoped bajo su propia clase (.app-main-informes, .app-main-inicio,
+     etc.) más abajo, porque cada pantalla tiene un tipo de contenido
+     distinto (dashboard, listados, formularios, detalle) y no siempre
+     corresponde el mismo criterio. */
+  .app-main-wide {
+    max-width: 1040px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* — Informes (admin-informes.html) — */
+  .app-main-informes .stat-grid { gap: var(--space-4); }
+  .app-main-informes .card { padding: var(--space-4); }
+  .app-main-informes .card-kicker { font-size: 12px; }
+  .app-main-informes .card-stat { font-size: 34px; }
+  .app-main-informes .progress { height: 8px; }
+  .app-main-informes .report-row { margin-bottom: var(--space-3); }
+  .app-main-informes .report-row-head { font-size: 14px; margin-bottom: 5px; }
+
+  /* — Inicio (admin-inicio.html): dashboard con 2 stat tiles arriba y,
+     si hay alertas, una lista de alumnos en riesgo debajo. Mismo criterio
+     de stat tiles que Informes; las filas de alerta agrandan texto y
+     padding en vez de achicarse, ya que a este ancho quedan con mucho
+     aire de sobra si se dejan al tamaño mobile. */
+  .app-main-inicio .stat-grid { gap: var(--space-4); }
+  .app-main-inicio .card { padding: var(--space-4); }
+  .app-main-inicio .card-kicker { font-size: 12px; }
+  .app-main-inicio .card-stat { font-size: 34px; }
+  .app-main-inicio #home-alerts-list .list-row { padding: 14px 0; }
+  .app-main-inicio #home-alerts-list .list-row-title { font-size: 16px; }
+  .app-main-inicio #home-alerts-list .list-row-subtitle { font-size: 12px; }
+
+  /* — Cursos (admin-cursos.html): listado de cards de curso, hoy apiladas
+     en una sola columna (.card-grid) tanto en mobile como en desktop. A
+     este ancho conviene usar el espacio horizontal en una grilla de 3
+     columnas en vez de una columna angosta de cards estirados. */
+  .app-main-cursos .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+  .app-main-cursos .card { padding: var(--space-4); }
+  .app-main-cursos .card-title { font-size: 19px; }
+  .app-main-cursos .card-kicker { font-size: 12px; }
+
+  /* — Curso (admin-curso.html): card de detalle del curso arriba +
+     roster de alumnos debajo. El card de detalle agranda título/padding;
+     el roster sigue el mismo criterio de fila agrandada que Inicio. */
+  .app-main-curso #course-card { padding: var(--space-4); }
+  .app-main-curso #course-card .card-title { font-size: 22px; }
+  .app-main-curso #course-card .card-body { font-size: 14px; }
+  .app-main-curso #course-roster .list-row { padding: 14px 0; }
+  .app-main-curso #course-roster .list-row-title { font-size: 16px; }
+
+  /* — Alumnos (admin-alumnos.html): buscador + listado completo. El
+     buscador NO se estira a los 1040px del container — un input de
+     una sola línea así de ancho se ve desproporcionado y no ayuda a la
+     usabilidad; se lo deja con un ancho razonable y se agranda el
+     listado igual que en el resto de las páginas con listas. */
+  .app-main-alumnos #student-search { max-width: 420px; min-height: 48px; font-size: 15px; }
+  .app-main-alumnos #student-list .list-row { padding: 14px 0; }
+  .app-main-alumnos #student-list .list-row-title { font-size: 16px; }
+  .app-main-alumnos #student-list .list-row-subtitle { font-size: 12px; }
+
+  /* — Alumno (admin-alumno.html): card de detalle + botón de acción +
+     historial. El card y el historial sí acompañan el ancho completo
+     (misma lógica que Curso). El botón "Justificar falta" en cambio NO
+     se estira: es una única acción primaria, y a 1040px de ancho una
+     barra sólida navy de ese tamaño pesa demasiado visualmente y se
+     lee más como un banner que como un botón — se lo deja con un ancho
+     acotado, igual criterio que el buscador de Alumnos. */
+  .app-main-alumno #student-card { padding: var(--space-4); }
+  .app-main-alumno #student-card .card-title { font-size: 22px; }
+  .app-main-alumno #justify-open-btn { max-width: 320px; min-height: 52px; font-size: 15px; }
+  .app-main-alumno #student-history .list-row { padding: 12px 0; }
+
+  /* — Perfil (admin-perfil.html): a diferencia de las otras 6, el
+     contenido acá es mínimo (un card chico + dos botones) — no es un
+     listado ni un dashboard que necesite usar el ancho extra. Estirar
+     el card/los botones a 1040px se vería vacío y forzado, así que en
+     vez de escalar el contenido se lo centra en una columna angosta
+     (max-width: 460px) dentro del container ancho: el espacio de sobra
+     queda para la decoración de esquina en vez de contenido estirado. */
+  .app-main-perfil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .app-main-perfil .card { width: 100%; max-width: 460px; padding: var(--space-5); }
+  .app-main-perfil .card-title { font-size: 22px; }
+  .app-main-perfil .btn-block { width: 100%; max-width: 460px; min-height: 52px; font-size: 15px; }
+}

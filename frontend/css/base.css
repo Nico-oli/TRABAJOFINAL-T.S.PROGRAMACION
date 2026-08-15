@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;700&family=Barlow+Condensed:wght@400;600&display=swap');
+
+/* — reset — */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--space-2);
+}
+h1 { font-size: 26px; }
+h2 { font-size: 20px; }
+h3 { font-size: 18px; }
+p { margin: 0 0 var(--space-3); }
+a { color: var(--color-accent); text-underline-offset: 3px; }
+img, svg { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; }
+ul { list-style: none; margin: 0; padding: 0; }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+.text-muted { color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+.text-center { text-align: center; }
+.kicker {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent-700);
+  font-size: 11px;
+}
+.section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  margin-bottom: var(--space-2);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   App shell — mobile-first.
+   Estructura: header fijo arriba, contenido con scroll propio,
+   tab-bar fija abajo. En desktop (>=1024px) el nav (<nav id="tab-bar">,
+   ver components.css) vive DENTRO de .app-header como una fila más —
+   no hay sidebar — y el header entero pasa a ser una barra fija de
+   ancho completo arriba de todo, con 3 grupos: logo, título+rol, nav.
+   ══════════════════════════════════════════════════════════════════ */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--color-bg);
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-divider);
+  background: var(--color-bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.app-header h2 { margin: 2px 0 0; font-size: 19px; }
+
+.app-main {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  /* El padding-bottom deja lugar a la tab-bar fija (ver .tab-bar en
+     components.css) más el gesture bar de iOS, para que el contenido no
+     quede tapado detrás. En desktop (>=1024px) el nav ya no está fijo
+     abajo (vive dentro del header, arriba), así que ese breakpoint pisa
+     esto con un padding-top en vez de padding-bottom (ver más abajo). */
+  padding: var(--space-4) var(--space-4) calc(var(--tab-bar-height) + env(safe-area-inset-bottom, 0px) + var(--space-4));
+  width: 100%;
+}
+
+/* — página de login, sin header/tab-bar de la app — */
+.auth-shell {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4);
+}
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  /* Por encima de .auth-deco-layer (position:fixed, ver abajo): sin este
+     stacking context propio, un elemento fixed pinta arriba del flujo
+     normal sin importar el orden en el DOM. */
+  position: relative;
+  z-index: 1;
+}
+.auth-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-1);
+  font-size: 12px;
+}
+
+/* — decoración de fondo del login, sólo desktop (index.html) — trazo
+   único estilo garabato/dibujo a mano, en las esquinas. overflow:hidden
+   en el layer para que nunca agregue scroll aunque el viewport sea más
+   chico que el SVG; z-index por debajo de .auth-card (ver arriba). */
+.auth-deco-layer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.auth-deco {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  opacity: 0.50;
+  /* fill/stroke son heredables en SVG, así que puestas acá llegan al
+     <path> real: el <use> lo clona desde <defs>, que está fuera de
+     .auth-deco en el árbol, así que un selector tipo ".auth-deco path"
+     nunca lo matchea (quedaba con el fill negro por default de SVG). */
+  fill: none;
+  stroke: var(--color-text);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.auth-deco-tr { top: -24px; right: -24px; }
+.auth-deco-bl { bottom: -24px; left: -24px; transform: rotate(180deg); }
+
+@media (min-width: 1024px) {
+  .auth-deco-layer { display: block; }
+}
+
+@media (min-width: 768px) {
+  .app-main { padding: var(--space-6) var(--space-6) calc(var(--tab-bar-height) + env(safe-area-inset-bottom, 0px) + var(--space-6)); }
+  .app-header { padding: var(--space-5) var(--space-6); }
+}
+
+@media (min-width: 1024px) {
+  /* Reemplaza la sidebar vertical anterior (el bug de la captura): acá
+     ya no hay .app-shell en fila ni .app-content en columna reservando
+     ancho para una barra lateral. El header pasa a fixed, ancho
+     completo, con el nav adentro como una fila más — .app-main sólo
+     necesita padding-top para no quedar tapado detrás. */
+  .app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 30;
+    padding: var(--space-4) var(--space-8);
+  }
+
+  /* Disuelve el wrapper de kicker+título (ver admin/*.html, asistente/*.html):
+     a partir de acá, kicker pasa a ser hijo directo de .app-header, en
+     igualdad con el tag de rol y el nav (a mobile no le afecta, ahí
+     sigue siendo un wrapper normal que apila kicker arriba del título). */
+  .app-header-brand { display: contents; }
+
+  /* El título de pantalla (texto que cambia por página) sólo se muestra
+     en mobile/tablet — en desktop el header queda con kicker, tag de
+     rol y nav únicamente. */
+  .app-header h2 { display: none; }
+
+  /* Con el título afuera del flujo, sólo quedan dos grupos en el flex de
+     .app-header (kicker y nav): justify-content:space-between (heredado)
+     ya los manda a los extremos, sin necesitar el truco de
+     margin-left:auto que usaba el grupo del medio. El tag de rol se saca
+     del flujo flex y se centra respecto de .app-header entero (que es
+     position:fixed;width:100% acá arriba) para que quede en el centro
+     real del viewport, sin importar si kicker y nav pesan distinto. */
+  #app-header-role {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .app-main {
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+    padding: calc(var(--app-header-height-desktop) + var(--space-8)) var(--space-8) var(--space-8);
+  }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Asistencia · Instituto San Martín</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./css/variables.css">
+<link rel="stylesheet" href="./css/base.css">
+<link rel="stylesheet" href="./css/components.css">
+</head>
+<body>
+
+<div class="auth-shell">
+  <!-- Decoración de fondo, sólo desktop (ver .auth-deco* en base.css) —
+       puramente visual, no aporta información: aria-hidden y sin afectar
+       el orden de tabulación. Un solo trazo (path) reutilizado dos veces
+       (arriba a la derecha, y rotado 180° abajo a la izquierda) via
+       <use>, para no duplicar la geometría. -->
+  <div class="auth-deco-layer" aria-hidden="true">
+    <svg width="0" height="0" style="position:absolute">
+      <defs>
+        <path id="auth-deco-scribble" d="M14,150 C10,84 56,26 128,22 C192,18 224,64 190,98 C154,134 96,110 108,68 C116,40 156,40 160,66 C162,84 144,96 130,86" />
+      </defs>
+    </svg>
+    <svg class="auth-deco auth-deco-tr" viewBox="0 0 220 220" focusable="false">
+      <use href="#auth-deco-scribble" />
+    </svg>
+    <svg class="auth-deco auth-deco-bl" viewBox="0 0 220 220" focusable="false">
+      <use href="#auth-deco-scribble" />
+    </svg>
+  </div>
+
+  <div class="auth-card">
+    <div class="text-center" style="margin-bottom:8px">
+      <div class="kicker">Asistencia</div>
+      <h1 style="margin:6px 0 0">Instituto San Martín</h1>
+      <div class="text-muted" style="font-size:12px;margin-top:4px">Control de asistencias y alumnos</div>
+    </div>
+
+    <!-- Mismo .card que los recuadros de Inicio de Administrador (borde
+         de 1px, sin estilo nuevo) — sólo envuelve los campos y el botón,
+         no el header ni los links de abajo. -->
+    <form class="card" id="login-form" novalidate style="padding:var(--space-4);gap:var(--space-4)">
+      <p id="login-error" class="text-muted" style="color:var(--color-accent-800);font-size:13px" hidden></p>
+
+      <div class="field">
+        <label for="login-email">Usuario</label>
+        <input class="input" id="login-email" type="email" required placeholder="nombre@institucion.edu.ar">
+      </div>
+      <div class="field">
+        <label for="login-password">Contraseña</label>
+        <input class="input" id="login-password" type="password" required placeholder="••••••••">
+      </div>
+
+      <button class="btn btn-primary btn-block" id="login-submit" type="submit">Ingresar</button>
+    </form>
+
+    <div class="auth-links">
+      <a href="./recuperar-contrasena.html">¿Olvidaste tu contraseña?</a>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="./js/pages/login.js"></script>
+</body>
+</html>

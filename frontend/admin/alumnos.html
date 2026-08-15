@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Alumnos · Asistencia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <div class="app-content">
+    <div class="app-deco-layer" aria-hidden="true">
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <path id="alumnos-deco-scribble" d="M10,60 C50,20 90,20 100,55 C110,90 150,60 145,25 C142,5 175,0 190,25 C200,42 185,60 170,50 C160,43 165,30 175,32" />
+        </defs>
+      </svg>
+      <svg class="app-deco app-deco-tr" viewBox="0 0 220 220" focusable="false">
+        <use href="#alumnos-deco-scribble" />
+      </svg>
+      <svg class="app-deco app-deco-bl" viewBox="0 0 220 220" focusable="false">
+        <use href="#alumnos-deco-scribble" />
+      </svg>
+    </div>
+
+    <header class="app-header">
+      <div class="app-header-brand">
+        <div class="kicker">Asistencia</div>
+        <h2 id="app-header-title"></h2>
+      </div>
+      <span id="app-header-role" class="tag"></span>
+      <nav class="tab-bar" id="tab-bar"></nav>
+    </header>
+    <main class="app-main app-main-wide app-main-alumnos">
+      <input class="input" id="student-search" placeholder="Buscar alumno..." style="margin-bottom:10px">
+      <p id="student-list-error" class="text-muted" style="color:var(--color-accent-800)" hidden></p>
+      <div id="student-list"></div>
+    </main>
+  </div>
+</div>
+
+<script type="module" src="../js/pages/admin-alumnos.js"></script>
+</body>
+</html>

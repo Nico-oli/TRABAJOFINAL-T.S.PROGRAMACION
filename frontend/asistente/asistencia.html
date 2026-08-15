@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Tomar asistencia · Asistencia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <div class="app-content">
+    <header class="app-header">
+      <div class="app-header-brand">
+        <div class="kicker">Asistencia</div>
+        <h2 id="app-header-title"></h2>
+      </div>
+      <span id="app-header-role" class="tag"></span>
+      <nav class="tab-bar" id="tab-bar"></nav>
+    </header>
+    <main class="app-main">
+      <p id="attendance-error" class="text-muted" style="color:var(--color-accent-800)" hidden></p>
+
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-3)">
+        <div>
+          <div id="attendance-subtitle" class="text-muted" style="font-size:13px;margin-bottom:2px"></div>
+          <div class="text-muted" style="font-size:11px;margin-bottom:10px">Tocá el cuadrado para marcar ausente</div>
+        </div>
+        <span id="attendance-absent-count" class="tag tag-accent"></span>
+      </div>
+
+      <div id="attendance-list"></div>
+
+      <button class="btn btn-primary btn-block" id="attendance-submit" style="margin-top:14px">Guardar asistencia</button>
+      <button class="btn btn-ghost" id="attendance-cancel" style="margin-top:6px">Cancelar</button>
+    </main>
+  </div>
+</div>
+
+<script type="module" src="../js/pages/asistente-asistencia.js"></script>
+</body>
+</html>
