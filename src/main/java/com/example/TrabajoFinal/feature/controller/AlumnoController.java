@@ -41,7 +41,7 @@ public class AlumnoController {
     }
 
     @GetMapping("/alumno/curso/{idCurso}")
-    @PreAuthorize("hasRole('ADMINISTRADOR','ASISTENTE')")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR','ASISTENTE')")
     public ResponseEntity<BaseResponse<?>> getPorCurso(
             @PathVariable Long idCurso
     ){
@@ -53,7 +53,7 @@ public class AlumnoController {
     }
 
     @GetMapping("/alumno/{idAlumno}")
-    @PreAuthorize("hasRole('ADMINISTRADOR','ASISTENTE')")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR','ASISTENTE')")
     public ResponseEntity<BaseResponse<?>> getAlumno(
             @PathVariable Long idAlumno
     ){
@@ -83,6 +83,7 @@ public class AlumnoController {
     }
 
     @DeleteMapping("/alumno/{idAlumno}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public  ResponseEntity<BaseResponse<?>> softDelete(
             @PathVariable Long idAlumno
     ){

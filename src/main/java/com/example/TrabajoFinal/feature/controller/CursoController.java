@@ -69,7 +69,7 @@ public class CursoController {
     }
 
     @GetMapping("/curso")
-    @PreAuthorize("hasRole('ADMINISTRADOR','ASISTENTE')")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR','ASISTENTE')")
     public ResponseEntity<BaseResponse<List<CursoResponse>>> getAll(
             @AuthenticationPrincipal Usuario usuario
             ){
