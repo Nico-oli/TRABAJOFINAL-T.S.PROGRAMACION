@@ -24,8 +24,7 @@ public class AsistenciaController {
     private final IAsistenciasService asistenciasService;
 
 
-    @PostMapping("/asistencias")
-    @PreAuthorize("hasRole('ASISTENTE')")
+    @PostMapping("/asistencias/asistencia")
     public ResponseEntity<BaseResponse<?>> guardar(
             @AuthenticationPrincipal Usuario asistente,
             @Valid @RequestBody List<AsistenciaRequest> dto
@@ -37,8 +36,7 @@ public class AsistenciaController {
         );}
 
 
-    @PatchMapping("/asistencia/{idAsistencia}")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PatchMapping("/admin/asistencia/{idAsistencia}")
     public ResponseEntity<BaseResponse<?>> actualizar(
             @PathVariable Long idAsistencia,
             @RequestBody EstadoAsistencia estado
@@ -50,8 +48,7 @@ public class AsistenciaController {
         );
     }
 
-    @DeleteMapping("/asistencia/{idAsistencia}")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @DeleteMapping("/admin/asistencia/{idAsistencia}")
     public ResponseEntity<BaseResponse<?>> softDelete(
             @PathVariable Long idAsistencia
     ){
@@ -63,8 +60,7 @@ public class AsistenciaController {
         );
     }
 
-    @DeleteMapping("/asistencia/cambioAnual")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @DeleteMapping("/admin/asistencia/cambioAnual")
     public ResponseEntity<BaseResponse<?>> deleteForAnio(){
 
         asistenciasService.eliminarAsistenciasPorAnio();
@@ -74,8 +70,7 @@ public class AsistenciaController {
         );
     }
 
-    @PostMapping("/asistencia/{idCurso}")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PostMapping("/admin/asistencia/{idCurso}")
     public ResponseEntity<BaseResponse<List<AsistenciaResponse>>> getForFecha(
             @RequestBody LocalDate fecha,
             @PathVariable Long idCurso

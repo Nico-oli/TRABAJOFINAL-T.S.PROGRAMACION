@@ -14,8 +14,7 @@ public class AsignarAsistenteController {
 
     private final IAsignarAsistenteService asignarAsistenteService;
 
-    @PostMapping("/usuario/{idUsuario}/curso/{idCurso}")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PostMapping("/admin/usuario/{idUsuario}/curso/{idCurso}")
     public ResponseEntity<BaseResponse<?>> asignarCurso(
         @PathVariable Long idUsuario,
         @PathVariable Long idCurso
@@ -27,8 +26,7 @@ public class AsignarAsistenteController {
         );
     }
 
-    @DeleteMapping("/usuario/{idUsuario}/curso/{idCurso}")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @DeleteMapping("/admin/usuario/{idUsuario}/curso/{idCurso}")
     public ResponseEntity<BaseResponse<?>> desasignarCurso(
             @PathVariable Long idUsuario,
             @PathVariable Long idCurso

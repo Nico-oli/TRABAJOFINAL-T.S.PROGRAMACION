@@ -29,8 +29,7 @@ public class CursoController {
     private final ICursoDeBajaService bajaService;
     private final ICursoGetService getService;
 
-    @PostMapping("/curso")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PostMapping("/admin/curso")
     public ResponseEntity<BaseResponse<?>> create(
             @Valid @RequestBody CursoRequest dto
             ){
@@ -42,8 +41,7 @@ public class CursoController {
         );
     }
 
-    @PatchMapping("/curso/{idCurso}")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PatchMapping("/admin/curso/{idCurso}")
     public ResponseEntity<BaseResponse<CursoResponse>> actualizar(
             @PathVariable Long idCurso, @Valid @RequestBody CursoActualizarRequest dto
     ){
@@ -55,8 +53,7 @@ public class CursoController {
         );
     }
 
-    @DeleteMapping("/curso/{idCurso}")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @DeleteMapping("/admin/curso/{idCurso}")
     public ResponseEntity<BaseResponse<?>> delete(
             @PathVariable Long idCurso
     ){
@@ -68,8 +65,7 @@ public class CursoController {
         );
     }
 
-    @GetMapping("/curso")
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR','ASISTENTE')")
+    @GetMapping("/asistencias/curso")
     public ResponseEntity<BaseResponse<List<CursoResponse>>> getAll(
             @AuthenticationPrincipal Usuario usuario
             ){

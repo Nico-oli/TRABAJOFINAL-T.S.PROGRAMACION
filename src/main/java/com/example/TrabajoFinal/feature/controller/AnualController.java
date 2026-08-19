@@ -16,8 +16,7 @@ public class AnualController {
 
     private final ICambioAnioService cambioAnioService;
 
-    @PostMapping("/cambiarAnio")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PostMapping("/admin/cambiarAnio")
     public ResponseEntity<BaseResponse<?>> cambioDeAnio(){
 
         cambioAnioService.cambioAnual();
