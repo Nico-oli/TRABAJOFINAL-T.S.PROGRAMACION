@@ -6,6 +6,6 @@ import com.example.TrabajoFinal.feature.models.Usuario;
 import java.util.List;
 
 public interface ICursoGetService {
-    List<CursoResponse> getAll(Usuario usuario);
+    List<CursoResponse> getAll(Long idUsuario);
     CursoResponse getCursoPorId(Long idCurso);
 }

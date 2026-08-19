@@ -76,7 +76,7 @@ public class CursoController {
 
         return ResponseEntity.ok(
                 BaseResponse.ok(
-                        getService.getAll(usuario),
+                        getService.getAll(usuario.getId()),
                         "Se trajeron todos los cursos disponibles."
                 )
         );

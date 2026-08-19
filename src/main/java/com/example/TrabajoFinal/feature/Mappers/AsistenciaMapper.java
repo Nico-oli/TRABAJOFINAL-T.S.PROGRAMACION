@@ -26,10 +26,12 @@ public class AsistenciaMapper {
 
     public static AsistenciaResponse toResponse(Asistencia asistencia, AlumnoResponse alumno){
         return new AsistenciaResponse(
+                asistencia.getId(),
                 alumno,
                 CursoMapper.toResponse(asistencia.getCurso()),
                 asistencia.getFecha(),
                 asistencia.getObservacion(),
+                asistencia.getEstado(),
                 asistencia.getRegistradoPor().getNombre() + " " + asistencia.getRegistradoPor().getApellido()
         );
     }

@@ -24,7 +24,7 @@ public class AsistenciaController {
     private final IAsistenciasService asistenciasService;
 
 
-    @PostMapping("/asistencia")
+    @PostMapping("/asistencias")
     @PreAuthorize("hasRole('ASISTENTE')")
     public ResponseEntity<BaseResponse<?>> guardar(
             @AuthenticationPrincipal Usuario asistente,
@@ -74,7 +74,7 @@ public class AsistenciaController {
         );
     }
 
-    @GetMapping("/asistencia/{idCurso}")
+    @PostMapping("/asistencia/{idCurso}")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<BaseResponse<List<AsistenciaResponse>>> getForFecha(
             @RequestBody LocalDate fecha,
