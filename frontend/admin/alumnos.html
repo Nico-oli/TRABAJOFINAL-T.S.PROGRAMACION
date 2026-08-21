@@ -36,11 +36,76 @@
     </header>
     <main class="app-main app-main-wide app-main-alumnos">
       <input class="input" id="student-search" placeholder="Buscar alumno..." style="margin-bottom:10px">
+      <div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-3)">
+        <button class="btn btn-primary" id="new-student-open-btn" style="flex:1">+ Nuevo alumno</button>
+        <button class="btn btn-secondary" id="select-mode-toggle-btn">Seleccionar</button>
+      </div>
       <p id="student-list-error" class="text-muted" style="color:var(--color-accent-800)" hidden></p>
-      <div id="student-list"></div>
+      <div id="student-list" style="padding-bottom:70px"></div>
     </main>
   </div>
 </div>
+
+<div class="bulk-bar" id="bulk-bar" hidden>
+  <span class="bulk-bar-count" id="bulk-bar-count"></span>
+  <select class="input" id="bulk-bar-curso"></select>
+  <button class="btn btn-primary" id="bulk-bar-move-btn" disabled>Mover al siguiente curso</button>
+  <button class="btn btn-ghost" id="bulk-bar-cancel-btn">Cancelar</button>
+</div>
+
+<div class="dialog-backdrop" id="move-confirm-backdrop" hidden>
+  <div class="dialog">
+    <div class="dialog-title">Confirmar movimiento</div>
+    <div class="dialog-body" id="move-confirm-body"></div>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" id="move-confirm-cancel-btn">Cancelar</button>
+      <button class="btn btn-primary" id="move-confirm-ok-btn">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div class="dialog-backdrop" id="move-result-backdrop" hidden>
+  <div class="dialog">
+    <div class="dialog-title">Resultado</div>
+    <div class="dialog-body" id="move-result-body"></div>
+    <div class="dialog-actions">
+      <button class="btn btn-primary" id="move-result-close-btn">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<div class="dialog-backdrop" id="student-form-backdrop" hidden>
+  <div class="dialog">
+    <div class="dialog-title">Nuevo alumno</div>
+    <p id="student-form-error" class="text-muted" style="color:var(--color-accent-800);font-size:13px" hidden></p>
+    <div class="field">
+      <label for="student-form-nombre">Nombre</label>
+      <input class="input" id="student-form-nombre">
+    </div>
+    <div class="field">
+      <label for="student-form-apellido">Apellido</label>
+      <input class="input" id="student-form-apellido">
+    </div>
+    <div class="field">
+      <label for="student-form-dni">DNI</label>
+      <input class="input" id="student-form-dni" type="number" min="1">
+    </div>
+    <div class="field">
+      <label for="student-form-nacimiento">Fecha de nacimiento</label>
+      <input class="input" id="student-form-nacimiento" type="date">
+    </div>
+    <div class="field">
+      <label for="student-form-curso">Curso</label>
+      <select class="input" id="student-form-curso"></select>
+    </div>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" id="student-form-cancel-btn">Cancelar</button>
+      <button class="btn btn-primary" id="student-form-confirm-btn">Crear</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
 
 <script type="module" src="../js/pages/admin-alumnos.js"></script>
 </body>

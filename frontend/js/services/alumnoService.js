@@ -21,8 +21,33 @@ export const alumnoService = {
   },
 
   // PATCH /api/alumno/{idAlumno} — { nombre?, apellido?, idCurso?, faltas?, adicional? }
+  // OJO: el backend tiene un bug conocido (ActualizarAlumno.java) que
+  // explota con NullPointerException si el payload no manda nombre/apellido
+  // (llama .isBlank() sin chequear null antes). No usar directo para updates
+  // parciales — ver actualizarSeguro() más abajo, que es el único lugar
+  // desde donde se debería llamar a esto para PATCHes parciales.
   actualizar(idAlumno, dto) {
     return http.patch(`/alumno/${idAlumno}`, dto);
+  },
+
+  // Envoltorio seguro para PATCHes parciales: hace GET primero, mezcla
+  // `cambios` (sólo los campos que realmente cambian) sobre los datos
+  // actuales del alumno, y manda el PATCH siempre completo — esquiva el
+  // bug de arriba sin depender de que se arregle en el backend. Usar SIEMPRE
+  // este método en vez de actualizar() para cualquier edición parcial.
+  //
+  // `adicional` no se expone en AlumnoResponse (no hay forma de leerlo desde
+  // acá), pero mandarlo `null` es seguro: ActualizarAlumno sólo lo pisa si
+  // el campo llega no-null.
+  async actualizarSeguro(idAlumno, cambios) {
+    const actual = await this.getUno(idAlumno);
+    return this.actualizar(idAlumno, {
+      nombre: cambios.nombre ?? actual.nombre,
+      apellido: cambios.apellido ?? actual.apellido,
+      idCurso: cambios.idCurso ?? actual.curso.id,
+      faltas: cambios.faltas ?? actual.inAsistencias,
+      adicional: cambios.adicional ?? null,
+    });
   },
 
   // DELETE /api/alumno/{idAlumno} — baja lógica

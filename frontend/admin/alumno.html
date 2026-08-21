@@ -43,7 +43,8 @@
 
       <div class="card" id="student-card" style="margin:var(--space-3) 0 var(--space-4)"></div>
 
-      <button class="btn btn-primary btn-block" id="justify-open-btn" style="margin-bottom:var(--space-5)">Justificar falta</button>
+      <button class="btn btn-primary btn-block" id="justify-open-btn" style="margin-bottom:var(--space-2)">Justificar falta</button>
+      <button class="btn btn-secondary btn-block" id="edit-student-open-btn" style="margin-bottom:var(--space-5)">Editar alumno</button>
 
       <div class="section-label">Historial reciente</div>
       <div id="student-history"></div>
@@ -60,6 +61,33 @@
     <div class="dialog-actions">
       <button class="btn btn-secondary" id="justify-cancel-btn">Cancelar</button>
       <button class="btn btn-primary" id="justify-confirm-btn">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div class="dialog-backdrop" id="edit-student-backdrop" hidden>
+  <div class="dialog">
+    <div class="dialog-title">Editar alumno</div>
+    <p id="edit-student-error" class="text-muted" style="color:var(--color-accent-800);font-size:13px" hidden></p>
+    <div class="field">
+      <label for="edit-student-nombre">Nombre</label>
+      <input class="input" id="edit-student-nombre">
+    </div>
+    <div class="field">
+      <label for="edit-student-apellido">Apellido</label>
+      <input class="input" id="edit-student-apellido">
+    </div>
+    <div class="field">
+      <label for="edit-student-curso">Curso</label>
+      <select class="input" id="edit-student-curso"></select>
+    </div>
+    <div class="field">
+      <label for="edit-student-faltas">Faltas</label>
+      <input class="input" id="edit-student-faltas" type="number" min="0" max="15">
+    </div>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" id="edit-student-cancel-btn">Cancelar</button>
+      <button class="btn btn-primary" id="edit-student-confirm-btn">Guardar</button>
     </div>
   </div>
 </div>

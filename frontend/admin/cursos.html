@@ -35,11 +35,37 @@
       <nav class="tab-bar" id="tab-bar"></nav>
     </header>
     <main class="app-main app-main-wide app-main-cursos">
+      <button class="btn btn-primary btn-block" id="new-course-open-btn" style="margin-bottom:var(--space-3)">+ Nuevo curso</button>
       <p id="course-list-error" class="text-muted" style="color:var(--color-accent-800)" hidden></p>
       <div id="course-list" class="card-grid"></div>
     </main>
   </div>
 </div>
+
+<div class="dialog-backdrop" id="course-form-backdrop" hidden>
+  <div class="dialog">
+    <div class="dialog-title">Nuevo curso</div>
+    <p id="course-form-error" class="text-muted" style="color:var(--color-accent-800);font-size:13px" hidden></p>
+    <div class="field">
+      <label for="course-form-nombre">Nombre</label>
+      <input class="input" id="course-form-nombre" placeholder="Ej: Programacion">
+    </div>
+    <div class="field">
+      <label for="course-form-anio">Año lectivo</label>
+      <input class="input" id="course-form-anio" type="number" min="1" max="7">
+    </div>
+    <div class="field">
+      <label for="course-form-turno">Turno</label>
+      <input class="input" id="course-form-turno" placeholder="Mañana, Tarde...">
+    </div>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" id="course-form-cancel-btn">Cancelar</button>
+      <button class="btn btn-primary" id="course-form-confirm-btn">Crear</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
 
 <script type="module" src="../js/pages/admin-cursos.js"></script>
 </body>

@@ -43,11 +43,47 @@
 
       <div class="card" id="course-card" style="margin:var(--space-3) 0 var(--space-4)"></div>
 
-      <div class="section-label">Alumnos del curso</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-3)">
+        <div class="section-label">Alumnos del curso</div>
+        <button class="btn btn-primary" id="new-student-open-btn">+ Añadir alumno</button>
+      </div>
       <div id="course-roster"></div>
     </main>
   </div>
 </div>
+
+<div class="dialog-backdrop" id="student-form-backdrop" hidden>
+  <div class="dialog">
+    <div class="dialog-title">Nuevo alumno</div>
+    <p id="student-form-error" class="text-muted" style="color:var(--color-accent-800);font-size:13px" hidden></p>
+    <div class="field">
+      <label for="student-form-nombre">Nombre</label>
+      <input class="input" id="student-form-nombre">
+    </div>
+    <div class="field">
+      <label for="student-form-apellido">Apellido</label>
+      <input class="input" id="student-form-apellido">
+    </div>
+    <div class="field">
+      <label for="student-form-dni">DNI</label>
+      <input class="input" id="student-form-dni" type="number" min="1">
+    </div>
+    <div class="field">
+      <label for="student-form-nacimiento">Fecha de nacimiento</label>
+      <input class="input" id="student-form-nacimiento" type="date">
+    </div>
+    <div class="field">
+      <label for="student-form-curso">Curso</label>
+      <select class="input" id="student-form-curso"></select>
+    </div>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" id="student-form-cancel-btn">Cancelar</button>
+      <button class="btn btn-primary" id="student-form-confirm-btn">Crear</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
 
 <script type="module" src="../js/pages/admin-curso.js"></script>
 </body>

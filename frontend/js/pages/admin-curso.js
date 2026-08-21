@@ -2,6 +2,8 @@ import { bootApp } from '../app.js';
 import { cursoService } from '../services/cursoService.js';
 import { alumnoService } from '../services/alumnoService.js';
 import { renderStudentRow } from '../components/student-row.js';
+import { initStudentFormDialog } from '../components/student-form-dialog.js';
+import { showToast } from '../components/toast.js';
 import { ApiError } from '../services/httpClient.js';
 
 const session = bootApp({ currentPage: 'admin-curso', requiredRole: 'ADMINISTRADOR', screenTitle: 'Curso' });
@@ -15,9 +17,24 @@ document.getElementById('back-to-courses-btn').addEventListener('click', () => {
 });
 
 async function init() {
+  await loadCurso();
+
+  initStudentFormDialog({
+    openBtnId: 'new-student-open-btn',
+    defaultCursoId: idCurso,
+    onConfirm: async (dto) => {
+      await alumnoService.create(dto);
+      showToast('Alumno creado con éxito');
+      await loadCurso();
+    },
+  });
+}
+
+async function loadCurso() {
   const cardEl = document.getElementById('course-card');
   const rosterEl = document.getElementById('course-roster');
   const errorEl = document.getElementById('course-error');
+  errorEl.hidden = true;
 
   try {
     const [cursos, roster] = await Promise.all([

@@ -2,6 +2,7 @@ import { bootApp } from '../app.js';
 import { alumnoService } from '../services/alumnoService.js';
 import { estadoFor } from '../components/student-row.js';
 import { initJustifyDialog } from '../components/justify-dialog.js';
+import { initEditStudentDialog } from '../components/edit-student-dialog.js';
 import { showToast } from '../components/toast.js';
 import { ApiError } from '../services/httpClient.js';
 
@@ -38,8 +39,10 @@ async function init() {
       try {
         // Ver TODO en components/justify-dialog.js: sólo se puede
         // decrementar el conteo de faltas, fecha/motivo no se persisten.
+        // Usa actualizarSeguro (GET + PATCH completo) en vez de actualizar()
+        // directo — ver services/alumnoService.js para el porqué.
         const nuevasFaltas = Math.max(0, alumno.inAsistencias - 1);
-        await alumnoService.actualizar(idAlumno, { faltas: nuevasFaltas });
+        await alumnoService.actualizarSeguro(idAlumno, { faltas: nuevasFaltas });
         // El PATCH no devuelve "asistencias" (viene null ahí, sólo se
         // completa en una consulta puntual) — se vuelve a pedir el
         // alumno completo para que el historial no parpadee a "Sin
@@ -51,6 +54,17 @@ async function init() {
       } catch (err) {
         showToast(err instanceof ApiError ? err.message : 'No se pudo justificar la falta.');
       }
+    },
+  });
+
+  initEditStudentDialog({
+    getAlumno: () => alumno,
+    onConfirm: async (cambios) => {
+      await alumnoService.actualizarSeguro(idAlumno, cambios);
+      alumno = await alumnoService.getUno(idAlumno);
+      renderCard(alumno);
+      renderHistory(alumno);
+      showToast('Alumno actualizado con éxito');
     },
   });
 

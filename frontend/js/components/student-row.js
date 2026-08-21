@@ -12,12 +12,26 @@ export function estadoFor(inAsistencias) {
 // Fila de alumno (usada en Alumnos y en el roster de un Curso). Si no se
 // pasa `courseName` no se muestra la segunda línea, como en el roster de
 // curso del mockup (ahí el curso ya está implícito por el contexto).
-export function renderStudentRow({ nombre, apellido, courseName, inAsistencias, href }) {
+//
+// `selectable` (opcional, default false) activa el modo selección múltiple
+// (ver admin-alumnos.js / Feature "mover al siguiente curso"): la fila deja
+// de ser un link navegable y pasa a ser un toggle de selección con un
+// checkbox a la izquierda. Sin `selectable`, el comportamiento es idéntico
+// al de siempre — no afecta a curso.html ni a ningún otro caller existente.
+export function renderStudentRow({
+  nombre, apellido, courseName, inAsistencias, href,
+  selectable = false, selected = false, onToggleSelect,
+}) {
   const estado = estadoFor(inAsistencias);
 
-  const row = document.createElement('a');
-  row.className = 'list-row list-row-clickable';
-  row.href = href;
+  const row = document.createElement(selectable ? 'div' : 'a');
+  row.className = 'list-row' + (selectable ? '' : ' list-row-clickable');
+  if (selectable) {
+    row.style.cursor = 'pointer';
+    row.addEventListener('click', () => onToggleSelect?.());
+  } else {
+    row.href = href;
+  }
 
   const left = document.createElement('div');
   const title = document.createElement('div');
@@ -35,7 +49,22 @@ export function renderStudentRow({ nombre, apellido, courseName, inAsistencias, 
   tag.className = estado.tagClass;
   tag.textContent = estado.label;
 
-  row.appendChild(left);
+  if (selectable) {
+    const leftWrapper = document.createElement('div');
+    leftWrapper.style.display = 'flex';
+    leftWrapper.style.alignItems = 'center';
+    leftWrapper.style.gap = 'var(--space-2)';
+
+    const checkbox = document.createElement('span');
+    checkbox.className = 'row-checkbox' + (selected ? ' is-selected' : '');
+    checkbox.innerHTML = '<span class="box">✓</span>';
+
+    leftWrapper.appendChild(checkbox);
+    leftWrapper.appendChild(left);
+    row.appendChild(leftWrapper);
+  } else {
+    row.appendChild(left);
+  }
   row.appendChild(tag);
   return row;
 }
