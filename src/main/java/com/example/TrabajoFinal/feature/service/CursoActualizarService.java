@@ -27,9 +27,9 @@ public class CursoActualizarService implements ICursoActualizarService{
         Curso curso = cursoRepository.findByIdAndActivoTrue(idCurso)
                 .orElseThrow(()-> new ResourceNotFoundException("El curso no fue encontrado"));
 
-        if(!dto.nombre().isBlank()) curso.setNombre(dto.nombre());
+        if( dto.nombre() != null &&!dto.nombre().isBlank()) curso.setNombre(dto.nombre());
         if(dto.anioLectivo() != null) curso.setAnioLectivo(dto.anioLectivo());
-        if(!dto.turno().isBlank()) curso.setTurno(dto.turno());
+        if( dto.turno() != null && !dto.turno().isBlank()) curso.setTurno(dto.turno());
 
         curso = cursoRepository.save(curso);
 

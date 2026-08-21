@@ -50,7 +50,7 @@ public class AsistenciaService implements IAsistenciasService{
 
         // Recorre las asistencias para asignar las faltas a los ausentes
         asistencias.forEach((a)-> {
-            if (a.getEstado() == EstadoAsistencia.AUSENTE){
+            if (a.getEstado() == EstadoAsistencia.AUSENTE || a .getEstado() == EstadoAsistencia.JUSTIFICADO){
                 faltasService.registrarFalta(a.getAlumno());
             }
         });

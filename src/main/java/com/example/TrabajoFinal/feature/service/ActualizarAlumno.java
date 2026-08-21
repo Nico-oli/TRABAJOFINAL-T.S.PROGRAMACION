@@ -32,8 +32,8 @@ public class ActualizarAlumno implements IActualizarAlumno{
             alumno.setCurso(curso);
         }
 
-        if(!actualizarDto.nombre().isBlank()) alumno.setNombre(actualizarDto.nombre());
-        if(!actualizarDto.apellido().isBlank()) alumno.setApellido(actualizarDto.apellido());
+        if(actualizarDto.nombre() != null && !actualizarDto.nombre().isBlank()) alumno.setNombre(actualizarDto.nombre());
+        if(actualizarDto.apellido() != null && !actualizarDto.apellido().isBlank()) alumno.setApellido(actualizarDto.apellido());
         if(actualizarDto.faltas() != null) alumno.setFaltas(actualizarDto.faltas());
         if(actualizarDto.adicional() != null) alumno.setAdicional(actualizarDto.adicional());
 

@@ -37,7 +37,6 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<BaseResponse<UsuarioResponse>> register(@Valid @RequestBody RegisterRequest request) {
         UsuarioResponse response = usuarioService.crear(request);
         return ResponseEntity
