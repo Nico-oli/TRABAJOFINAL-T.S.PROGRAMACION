@@ -5,13 +5,13 @@ import { http } from './httpClient.js';
 // muestra de sólo lectura, viene armado en CursoResponse.asistentes).
 // Este service queda listo para cuando se agregue esa pantalla al diseño.
 export const asignarAsistenteService = {
-  // POST /api/usuario/{idUsuario}/curso/{idCurso}
+  // POST /api/admin/usuario/{idUsuario}/curso/{idCurso}
   asignar(idUsuario, idCurso) {
-    return http.post(`/usuario/${idUsuario}/curso/${idCurso}`);
+    return http.post(`/admin/usuario/${idUsuario}/curso/${idCurso}`);
   },
 
-  // DELETE /api/usuario/{idUsuario}/curso/{idCurso}
+  // DELETE /api/admin/usuario/{idUsuario}/curso/{idCurso}
   quitar(idUsuario, idCurso) {
-    return http.delete(`/usuario/${idUsuario}/curso/${idCurso}`);
+    return http.delete(`/admin/usuario/${idUsuario}/curso/${idCurso}`);
   },
 };

@@ -4,8 +4,8 @@ import { http } from './httpClient.js';
 // año lectivo. Este service queda listo para cuando se agregue esa
 // acción al diseño (probablemente en el perfil de Administrador).
 export const anualService = {
-  // POST /api/cambiarAnio
+  // POST /api/admin/cambiarAnio
   cambiarAnio() {
-    return http.post('/cambiarAnio');
+    return http.post('/admin/cambiarAnio');
   },
 };
