@@ -7,11 +7,11 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 public record AlumnoActualizarRequest(
         @Pattern(
-                regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+$",
+                regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+(?: [a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+)*$",
                 message = "El nombre o apellido unicamente puede contener letras")
         String nombre,
         @Pattern(
-                regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+$",
+                regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+(?: [a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+)*$",
                 message = "El nombre o apellido unicamente puede contener letras")
         String apellido,
         @Positive(message = "El id del Curso no puede ser 0 o menor")

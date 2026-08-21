@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Perfil · Asistencia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <div class="app-content">
+    <div class="app-deco-layer" aria-hidden="true">
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <path id="perfil-deco-scribble" d="M35,25 C90,10 150,35 145,90 C140,135 95,155 55,135" />
+        </defs>
+      </svg>
+      <svg class="app-deco app-deco-tr" viewBox="0 0 220 220" focusable="false">
+        <use href="#perfil-deco-scribble" />
+      </svg>
+      <svg class="app-deco app-deco-bl" viewBox="0 0 220 220" focusable="false">
+        <use href="#perfil-deco-scribble" />
+      </svg>
+    </div>
+
+    <header class="app-header">
+      <div class="app-header-brand">
+        <div class="kicker">Asistencia</div>
+        <h2 id="app-header-title"></h2>
+      </div>
+      <span id="app-header-role" class="tag"></span>
+      <nav class="tab-bar" id="tab-bar"></nav>
+    </header>
+    <main class="app-main app-main-wide app-main-perfil">
+      <div class="card" style="margin-bottom:var(--space-5)">
+        <div class="card-title" id="profile-name"></div>
+        <div class="card-body">Instituto San Martín</div>
+      </div>
+
+      <button class="btn btn-secondary btn-block" id="switch-role-btn">Cambiar a Asistente (demo)</button>
+      <button class="btn btn-ghost" id="logout-btn" style="margin-top:6px">Cerrar sesión</button>
+    </main>
+  </div>
+</div>
+
+<script type="module" src="../js/pages/admin-perfil.js"></script>
+</body>
+</html>

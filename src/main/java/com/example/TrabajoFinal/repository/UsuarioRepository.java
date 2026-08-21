@@ -1,5 +1,6 @@
 package com.example.TrabajoFinal.repository;
 
+import com.example.TrabajoFinal.feature.models.Rol;
 import com.example.TrabajoFinal.feature.models.Usuario;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     boolean existsByEmail(String email);
 
     List<Usuario> findByCursosAsignados_Id(Long idCurso);
+
+    List<Usuario> findByRolAndActivoTrue(Rol rol);
 }

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Positive;
 public record CursoActualizarRequest(
 
         @Pattern(
-                regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9]+$",
+                regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9]+(?: [a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9]+)*$",
                 message = "El nombre unicamente puede contener letras o numeros")
         String nombre,
         @Positive(message = "El año lectivo no puede ser menor a 1")

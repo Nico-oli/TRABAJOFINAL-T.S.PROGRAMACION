@@ -27,8 +27,7 @@ public class AlumnoController {
     private final IActualizarAlumno actualizarService;
     private final IAlumnoDeleteService deleteService;
 
-    @PostMapping("/alumno")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PostMapping("/admin/alumno")
     public ResponseEntity<BaseResponse<?>> create(
             @Valid @RequestBody AlumnoRequest dto
     ){
@@ -40,8 +39,7 @@ public class AlumnoController {
         );
     }
 
-    @GetMapping("/alumno/curso/{idCurso}")
-    @PreAuthorize("hasRole('ADMINISTRADOR','ASISTENTE')")
+    @GetMapping("/asistencias/alumno/curso/{idCurso}")
     public ResponseEntity<BaseResponse<?>> getPorCurso(
             @PathVariable Long idCurso
     ){
@@ -52,8 +50,7 @@ public class AlumnoController {
         );
     }
 
-    @GetMapping("/alumno/{idAlumno}")
-    @PreAuthorize("hasRole('ADMINISTRADOR','ASISTENTE')")
+    @GetMapping("/asistencias/alumno/{idAlumno}")
     public ResponseEntity<BaseResponse<?>> getAlumno(
             @PathVariable Long idAlumno
     ){
@@ -64,8 +61,7 @@ public class AlumnoController {
         );
     }
 
-    @PatchMapping("/alumno/{idAlumno}")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PatchMapping("/admin/alumno/{idAlumno}")
     public ResponseEntity<BaseResponse<AlumnoResponse>> actualizar(
             @PathVariable Long idAlumno,
             @Valid @RequestBody AlumnoActualizarRequest actualizarAlumno
@@ -82,7 +78,7 @@ public class AlumnoController {
         );
     }
 
-    @DeleteMapping("/alumno/{idAlumno}")
+    @DeleteMapping("/admin/alumno/{idAlumno}")
     public  ResponseEntity<BaseResponse<?>> softDelete(
             @PathVariable Long idAlumno
     ){

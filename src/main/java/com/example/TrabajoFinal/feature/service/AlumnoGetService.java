@@ -15,9 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +30,17 @@ public class AlumnoGetService implements IAlumnoGetService {
     /**
      * Este se utiliza cuando no requerimos la informacion concreta de un alumno
      * traemos la informacion necesaria para no exponer datos.
+     *
+     * IMPORTANTE: usamos alumno.getFaltas() (el contador que vive en la propia
+     * entidad Alumno) en vez de recalcular contando filas de Asistencia con
+     * countAusenciasPorCurso(). Ese contador es la única fuente de verdad de
+     * "faltas" en el resto del sistema: lo incrementa AlumnoFaltasService
+     * cuando un Asistente marca AUSENTE, lo decrementa AsistenciaService al
+     * eliminar una inasistencia, y lo puede corregir a mano un Administrador
+     * vía PATCH /api/admin/alumno/{id}. Si acá se recalculaba aparte a partir
+     * de la tabla Asistencia, una corrección manual del Admin nunca se veía
+     * reflejada en este listado (y por lo tanto tampoco en el informe del
+     * curso, que se arma justamente a partir de este método).
      */
     @Override
     @Transactional(readOnly = true)
@@ -42,15 +51,8 @@ public class AlumnoGetService implements IAlumnoGetService {
 
         List<Alumno> alumnos = alumnoRepository.findByCursoIdAndActivoTrue(idCurso);
 
-        Map<Long, Integer> inasistenciasPorAlumno = new HashMap<>();
-        asistenciaRepository.countAusenciasPorCurso(idCurso)
-                .forEach(fila -> inasistenciasPorAlumno.put(fila.getAlumnoId(), fila.getCantidad().intValue()));
-
         return alumnos.stream()
-                .map(alumno -> AlumnoMapper.toResponse(
-                        alumno,
-                        inasistenciasPorAlumno.getOrDefault(alumno.getId(), 0)
-                ))
+                .map(alumno -> AlumnoMapper.toResponse(alumno, alumno.getFaltas()))
                 .toList();
     }
 

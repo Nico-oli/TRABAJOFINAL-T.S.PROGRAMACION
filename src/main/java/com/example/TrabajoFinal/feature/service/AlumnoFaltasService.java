@@ -25,7 +25,7 @@ public class AlumnoFaltasService implements IAlumnoFaltasService {
     @Value("${app.alumno.limite-faltas-adicionales}")
     private int limiteAdicional;
 
-    @Value("${alumno.adicionales-aviso}")
+    @Value("${app.alumno.adicionales-aviso}")
     private int adicionalAviso;
 
     /**
