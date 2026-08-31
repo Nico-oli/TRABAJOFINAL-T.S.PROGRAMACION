@@ -1,5 +1,6 @@
 package com.example.TrabajoFinal.feature.service;
 
+import com.example.TrabajoFinal.config.LimiteFaltasProperties;
 import com.example.TrabajoFinal.config.exceptions.ResourceNotFoundException;
 import com.example.TrabajoFinal.feature.Mappers.AlumnoMapper;
 import com.example.TrabajoFinal.feature.Mappers.AsistenciaMapper;
@@ -15,9 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +25,7 @@ public class AlumnoGetService implements IAlumnoGetService {
     private final AlumnoRepository alumnoRepository;
     private final CursoRepository cursoRepository;
     private final AsistenciaRepository asistenciaRepository;
+    private final LimiteFaltasProperties limites;
 
 
 
@@ -42,15 +42,8 @@ public class AlumnoGetService implements IAlumnoGetService {
 
         List<Alumno> alumnos = alumnoRepository.findByCursoIdAndActivoTrue(idCurso);
 
-        Map<Long, Integer> inasistenciasPorAlumno = new HashMap<>();
-        asistenciaRepository.countAusenciasPorCurso(idCurso)
-                .forEach(fila -> inasistenciasPorAlumno.put(fila.getAlumnoId(), fila.getCantidad().intValue()));
-
         return alumnos.stream()
-                .map(alumno -> AlumnoMapper.toResponse(
-                        alumno,
-                        inasistenciasPorAlumno.getOrDefault(alumno.getId(), 0)
-                ))
+                .map(alumno -> AlumnoMapper.toResponse(alumno, alumno.getFaltas(), limites))
                 .toList();
     }
 
@@ -69,12 +62,12 @@ public class AlumnoGetService implements IAlumnoGetService {
 
         // Versión sin el detalle de asistencias, para no duplicarla dentro
         // de cada AsistenciaResponse anidada.
-        AlumnoResponse alumnoSinDetalle = AlumnoMapper.toResponse(alumno, alumno.getFaltas());
+        AlumnoResponse alumnoSinDetalle = AlumnoMapper.toResponse(alumno, alumno.getFaltas(), limites);
 
         List<AsistenciaResponse> asistenciasResponse = asistencias.stream()
                 .map(asistencia -> AsistenciaMapper.toResponse(asistencia, alumnoSinDetalle))
                 .toList();
 
-        return AlumnoMapper.toResponse(alumno, alumno.getFaltas(), asistenciasResponse);
+        return AlumnoMapper.toResponse(alumno, alumno.getFaltas(), asistenciasResponse, limites);
     }
 }

@@ -2,6 +2,7 @@ package com.example.TrabajoFinal.feature.controller;
 
 import com.example.TrabajoFinal.config.BaseResponse;
 import com.example.TrabajoFinal.feature.service.IAsignarAsistenteService;
+import com.example.TrabajoFinal.feature.service.IUsuarioDeleteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class AsignarAsistenteController {
 
     private final IAsignarAsistenteService asignarAsistenteService;
+    private final IUsuarioDeleteService usuarioDeleteService;
 
     @PostMapping("/admin/usuario/{idUsuario}/curso/{idCurso}")
     public ResponseEntity<BaseResponse<?>> asignarCurso(
@@ -36,6 +38,17 @@ public class AsignarAsistenteController {
 
         return ResponseEntity.ok(
                 BaseResponse.noContent("Curso desasignado con exito")
+        );
+    }
+
+    @DeleteMapping("/admin/usuario/{idUsuario}")
+    public ResponseEntity<BaseResponse<?>> darDeBaja(
+            @PathVariable Long idUsuario
+    ){
+        usuarioDeleteService.deleteUsuario(idUsuario);
+
+        return ResponseEntity.ok(
+                BaseResponse.noContent("Usuario dado de baja con exito")
         );
     }
 }

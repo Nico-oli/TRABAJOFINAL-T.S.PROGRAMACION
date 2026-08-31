@@ -20,5 +20,6 @@ public class CambioAnioService implements ICambioAnioService{
         asistenciaRepository.eliminarTodasLasAsistencias();
         alumnoRepository.resetearFaltas();
         alumnoRepository.resetearAdicionales();
+        alumnoRepository.resetearFaltasAdicionalesOtorgadas();
     }
 }

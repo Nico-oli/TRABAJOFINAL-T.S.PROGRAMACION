@@ -70,4 +70,15 @@ public class Alumno {
     @Builder.Default
     @Column(nullable = false)
     private boolean adicional = false;
+
+    /**
+     * Cantidad acumulada de faltas adicionales otorgadas al alumno vía
+     * reincorporación paga (ver AlumnoFaltasService.reincorporarPorFaltasAdicionales).
+     * Se suma a limite-faltas/faltas-aviso para calcular el límite y el
+     * aviso efectivos de este alumno en particular — cada reincorporación
+     * suma sobre lo ya otorgado, no lo reemplaza.
+     */
+    @Builder.Default
+    @Column(nullable = false, columnDefinition = "integer default 0")
+    private Integer faltasAdicionalesOtorgadas = 0;
 }

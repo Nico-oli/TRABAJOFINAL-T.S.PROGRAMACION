@@ -27,7 +27,7 @@ public class CursoDeBajaService implements ICursoDeBajaService{
     @Override
     public void darDeBaja(Long idCurso) {
 
-        if(usuarioRepository.findByCursosAsignados_Id(idCurso).isEmpty()) throw new BadRequestException("Debe desasignar todos los asistentes del curso que desea dar de baja");
+        if(!usuarioRepository.findByCursosAsignados_Id(idCurso).isEmpty()) throw new BadRequestException("Debe desasignar todos los asistentes del curso que desea dar de baja");
 
         Curso curso = cursoRepository.findByIdAndActivoTrue(idCurso)
                 .orElseThrow(()-> new ResourceNotFoundException("El curso no fue encontrado"));

@@ -1,5 +1,6 @@
 package com.example.TrabajoFinal.feature.service;
 
+import com.example.TrabajoFinal.config.LimiteFaltasProperties;
 import com.example.TrabajoFinal.config.exceptions.ResourceNotFoundException;
 import com.example.TrabajoFinal.feature.Mappers.AlumnoMapper;
 import com.example.TrabajoFinal.feature.dtos.AlumnoActualizarRequest;
@@ -17,6 +18,7 @@ public class ActualizarAlumno implements IActualizarAlumno{
 
     private final AlumnoRepository alumnoRepository;
     private final CursoRepository cursoRepository;
+    private final LimiteFaltasProperties limites;
 
 
     @Override
@@ -39,6 +41,6 @@ public class ActualizarAlumno implements IActualizarAlumno{
 
         Alumno guardado = alumnoRepository.save(alumno);
 
-        return AlumnoMapper.toResponse(guardado, guardado.getFaltas());
+        return AlumnoMapper.toResponse(guardado, guardado.getFaltas(), limites);
     }
 }

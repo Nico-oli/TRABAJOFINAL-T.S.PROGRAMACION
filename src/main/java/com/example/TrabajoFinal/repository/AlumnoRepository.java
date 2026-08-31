@@ -33,4 +33,14 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
     WHERE a.adicional = true
 """)
     void resetearAdicionales();
+
+    // Resetea el cupo de faltas adicionales otorgado por reincorporación al
+    // cambiar de año lectivo, para que no quede acumulado entre ciclos.
+    @Modifying
+    @Query("""
+    UPDATE Alumno a
+    SET a.faltasAdicionalesOtorgadas = 0
+    WHERE a.faltasAdicionalesOtorgadas > 0
+""")
+    void resetearFaltasAdicionalesOtorgadas();
 }

@@ -1,5 +1,6 @@
 package com.example.TrabajoFinal.feature.service;
 
+import com.example.TrabajoFinal.config.LimiteFaltasProperties;
 import com.example.TrabajoFinal.config.exceptions.BadRequestException;
 import com.example.TrabajoFinal.config.exceptions.ResourceNotFoundException;
 import com.example.TrabajoFinal.feature.Mappers.AlumnoMapper;
@@ -26,6 +27,7 @@ public class AsistenciaService implements IAsistenciasService{
     private final CursoRepository cursoRepository;
     private final AlumnoRepository alumnoRepository;
     private final AlumnoFaltasService faltasService;
+    private final LimiteFaltasProperties limites;
 
     @Override
     @Transactional
@@ -117,7 +119,7 @@ public class AsistenciaService implements IAsistenciasService{
 
                     Alumno alumno = a.getAlumno();
 
-                    AlumnoResponse alumnoResponse = AlumnoMapper.toResponse(alumno,alumno.getFaltas());
+                    AlumnoResponse alumnoResponse = AlumnoMapper.toResponse(alumno,alumno.getFaltas(),limites);
 
                     return AsistenciaMapper.toResponse(a,alumnoResponse);
                 })

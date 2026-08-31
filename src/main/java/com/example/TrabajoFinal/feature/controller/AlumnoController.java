@@ -4,9 +4,11 @@ import com.example.TrabajoFinal.config.BaseResponse;
 import com.example.TrabajoFinal.feature.dtos.AlumnoActualizarRequest;
 import com.example.TrabajoFinal.feature.dtos.AlumnoRequest;
 import com.example.TrabajoFinal.feature.dtos.AlumnoResponse;
+import com.example.TrabajoFinal.feature.dtos.ReincorporarRequest;
 import com.example.TrabajoFinal.feature.service.IActualizarAlumno;
 import com.example.TrabajoFinal.feature.service.IAlumnoCreateService;
 import com.example.TrabajoFinal.feature.service.IAlumnoDeleteService;
+import com.example.TrabajoFinal.feature.service.IAlumnoFaltasService;
 import com.example.TrabajoFinal.feature.service.IAlumnoGetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class AlumnoController {
     private final IAlumnoGetService getService;
     private final IActualizarAlumno actualizarService;
     private final IAlumnoDeleteService deleteService;
+    private final IAlumnoFaltasService faltasService;
 
     @PostMapping("/admin/alumno")
     public ResponseEntity<BaseResponse<?>> create(
@@ -86,6 +89,21 @@ public class AlumnoController {
 
         return ResponseEntity.ok(
                 BaseResponse.noContent("Se elimino con exito")
+        );
+    }
+
+    @PostMapping("/admin/alumno/{idAlumno}/reincorporar")
+    public ResponseEntity<BaseResponse<AlumnoResponse>> reincorporar(
+            @PathVariable Long idAlumno,
+            @Valid @RequestBody ReincorporarRequest dto
+    ){
+        AlumnoResponse response = faltasService.reincorporarPorFaltasAdicionales(idAlumno, dto.cantidadFaltasAdicionales());
+
+        return ResponseEntity.ok(
+                BaseResponse.ok(
+                        response,
+                        "Alumno reincorporado con exito"
+                )
         );
     }
 
