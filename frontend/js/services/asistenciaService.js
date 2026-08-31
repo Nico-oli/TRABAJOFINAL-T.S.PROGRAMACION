@@ -16,11 +16,13 @@ export const asistenciaService = {
     return http.post('/asistencias/asistencia', registros);
   },
 
-  // PATCH /api/admin/asistencia/{idAsistencia} — cambia el estado de una
-  // asistencia puntual (rol ADMINISTRADOR). Body: uno de
-  // 'PRESENTE' | 'AUSENTE' | 'JUSTIFICADO' (el enum como string JSON).
-  actualizarEstado(idAsistencia, estado) {
-    return http.patch(`/admin/asistencia/${idAsistencia}`, estado);
+  // PATCH /api/admin/asistencia/{idAsistencia} — cambia el estado (y,
+  // opcionalmente, la observación) de una asistencia puntual (rol
+  // ADMINISTRADOR). Body: AsistenciaEstadoRequest { estado, observacion }.
+  // El backend ajusta el contador de faltas del alumno según la transición
+  // de estado (sólo AUSENTE cuenta) — ver AsistenciaService.ajustarFaltaPorCambioDeEstado.
+  actualizarEstado(idAsistencia, estado, observacion = null) {
+    return http.patch(`/admin/asistencia/${idAsistencia}`, { estado, observacion });
   },
 
   // DELETE /api/admin/asistencia/{idAsistencia}

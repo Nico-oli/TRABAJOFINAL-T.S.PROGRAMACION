@@ -1,9 +1,9 @@
 package com.example.TrabajoFinal.feature.controller;
 
 import com.example.TrabajoFinal.config.BaseResponse;
+import com.example.TrabajoFinal.feature.dtos.AsistenciaEstadoRequest;
 import com.example.TrabajoFinal.feature.dtos.AsistenciaRequest;
 import com.example.TrabajoFinal.feature.dtos.AsistenciaResponse;
-import com.example.TrabajoFinal.feature.models.EstadoAsistencia;
 import com.example.TrabajoFinal.feature.models.Usuario;
 import com.example.TrabajoFinal.feature.service.IAsistenciasService;
 import jakarta.validation.Valid;
@@ -39,9 +39,9 @@ public class AsistenciaController {
     @PatchMapping("/admin/asistencia/{idAsistencia}")
     public ResponseEntity<BaseResponse<?>> actualizar(
             @PathVariable Long idAsistencia,
-            @RequestBody EstadoAsistencia estado
+            @RequestBody AsistenciaEstadoRequest dto
             ){
-        asistenciasService.actualizarEstado(estado, idAsistencia);
+        asistenciasService.actualizarEstado(dto, idAsistencia);
 
         return ResponseEntity.ok(
                 BaseResponse.noContent("Actualizado con exito")

@@ -6,6 +6,7 @@ import com.example.TrabajoFinal.config.exceptions.ResourceNotFoundException;
 import com.example.TrabajoFinal.feature.Mappers.AlumnoMapper;
 import com.example.TrabajoFinal.feature.Mappers.AsistenciaMapper;
 import com.example.TrabajoFinal.feature.dtos.AlumnoResponse;
+import com.example.TrabajoFinal.feature.dtos.AsistenciaEstadoRequest;
 import com.example.TrabajoFinal.feature.dtos.AsistenciaRequest;
 import com.example.TrabajoFinal.feature.dtos.AsistenciaResponse;
 import com.example.TrabajoFinal.feature.models.*;
@@ -58,16 +59,52 @@ public class AsistenciaService implements IAsistenciasService{
         });
     }
 
+    private void ajustarFaltaPorCambioDeEstado(Alumno alumno, EstadoAsistencia estadoAnterior, EstadoAsistencia estadoNuevo) {
+
+        if (estadoAnterior == estadoNuevo) {
+            return;
+        }
+
+        boolean contabaComoFalta = estadoAnterior == EstadoAsistencia.AUSENTE;
+        boolean cuentaComoFalta = estadoNuevo == EstadoAsistencia.AUSENTE;
+
+        if (contabaComoFalta && !cuentaComoFalta) {
+            alumno.setFaltas(Math.max(0, alumno.getFaltas() - 1));
+            alumnoRepository.save(alumno);
+        } else if (!contabaComoFalta && cuentaComoFalta) {
+            faltasService.registrarFalta(alumno);
+        }
+    }
+
     @Override
-    public void actualizarEstado(EstadoAsistencia estado, Long idAsistencia) {
+    @Transactional
+    public void actualizarEstado(AsistenciaEstadoRequest dto, Long idAsistencia) {
 
         Asistencia asistencia = asistenciaRepository.findByIdAndEliminadoFalse(idAsistencia)
                 .orElseThrow(()-> new ResourceNotFoundException("Asistencia no encontrada"));
 
+        EstadoAsistencia estadoAnterior = asistencia.getEstado();
+        EstadoAsistencia estadoNuevo = dto.estado();
+
+        boolean cambioEstado = estadoAnterior != estadoNuevo;
+        boolean cambioObservacion = dto.observacion() != null
+                && !dto.observacion().equals(asistencia.getObservacion());
+
         // Para no guardar una asistencia sin modificaciones
-        if (asistencia.getEstado() != estado){
-            asistencia.setEstado(estado);
-            asistenciaRepository.save(asistencia);
+        if (!cambioEstado && !cambioObservacion) {
+            return;
+        }
+
+        if (cambioEstado) {
+            asistencia.setEstado(estadoNuevo);
+        }
+        if (cambioObservacion) {
+            asistencia.setObservacion(dto.observacion());
+        }
+        asistenciaRepository.save(asistencia);
+
+        if (cambioEstado) {
+            ajustarFaltaPorCambioDeEstado(asistencia.getAlumno(), estadoAnterior, estadoNuevo);
         }
     }
 
