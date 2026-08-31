@@ -1,10 +1,13 @@
 import { http } from './httpClient.js';
 
-// TODO: el mockup no tiene ninguna pantalla para asignar/desasignar
-// asistentes a un curso (el campo "asistente" de las cards de curso se
-// muestra de sólo lectura, viene armado en CursoResponse.asistentes).
-// Este service queda listo para cuando se agregue esa pantalla al diseño.
+// Gestión de Asistentes desde la pantalla Admin > Asistentes.
 export const asignarAsistenteService = {
+  // GET /api/admin/usuario/asistentes -> AsistenteResponse[]
+  // { id, nombre, apellido, email, cursosAsignados: [{ id, nombre }] }
+  listar() {
+    return http.get('/admin/usuario/asistentes');
+  },
+
   // POST /api/admin/usuario/{idUsuario}/curso/{idCurso}
   asignar(idUsuario, idCurso) {
     return http.post(`/admin/usuario/${idUsuario}/curso/${idCurso}`);
