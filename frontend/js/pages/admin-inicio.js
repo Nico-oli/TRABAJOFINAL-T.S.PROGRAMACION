@@ -3,7 +3,6 @@ import { cursoService } from '../services/cursoService.js';
 import { alumnoService } from '../services/alumnoService.js';
 import { renderStatTile } from '../components/stat-tile.js';
 import { estadoFor } from '../components/student-row.js';
-import { ATTENDANCE_WARN } from '../services/apiConfig.js';
 import { ApiError } from '../services/httpClient.js';
 
 const session = bootApp({ currentPage: 'admin-inicio', requiredRole: 'ADMINISTRADOR', screenTitle: 'Inicio' });
@@ -28,8 +27,12 @@ async function init() {
     statsEl.appendChild(renderStatTile({ label: 'Alumnos', value: alumnos.length }));
     statsEl.appendChild(renderStatTile({ label: 'Cursos', value: cursos.length }));
 
+    // avisoFaltasEfectivo viene del backend por alumno (base + lo otorgado
+    // por reincorporación) — antes era ATTENDANCE_WARN fijo, así que un
+    // alumno reincorporado con cupo otorgado quedaba marcado "en riesgo"
+    // de más, apenas pasaba el aviso base aunque su límite real fuera más alto.
     const alerts = alumnos
-      .filter((a) => a.inAsistencias >= ATTENDANCE_WARN)
+      .filter((a) => a.inAsistencias >= a.avisoFaltasEfectivo)
       .sort((a, b) => b.inAsistencias - a.inAsistencias);
 
     if (!alerts.length) {
@@ -40,7 +43,7 @@ async function init() {
     alertsCountEl.textContent = `(${alerts.length})`;
     alertsListEl.innerHTML = '';
     alerts.forEach((a) => {
-      const estado = estadoFor(a.inAsistencias);
+      const estado = estadoFor(a.inAsistencias, a.limiteFaltasEfectivo, a.avisoFaltasEfectivo);
       const row = document.createElement('a');
       row.className = 'list-row list-row-clickable';
       row.href = `../admin/alumno.html?id=${a.id}`;
@@ -49,7 +52,7 @@ async function init() {
           <div class="list-row-title">${a.nombre} ${a.apellido}</div>
           <div class="list-row-subtitle">${a.courseName}</div>
         </div>
-        <span class="${estado.tagClass}">${a.inAsistencias} faltas</span>
+        <span class="${estado.tagClass}">${a.inAsistencias}/${a.limiteFaltasEfectivo} faltas</span>
       `;
       alertsListEl.appendChild(row);
     });

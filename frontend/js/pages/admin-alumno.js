@@ -1,10 +1,16 @@
 import { bootApp } from '../app.js';
 import { alumnoService } from '../services/alumnoService.js';
+import { asistenciaService } from '../services/asistenciaService.js';
 import { estadoFor } from '../components/student-row.js';
 import { initJustifyDialog } from '../components/justify-dialog.js';
 import { initEditStudentDialog } from '../components/edit-student-dialog.js';
+import { initReincorporateDialog } from '../components/reincorporate-dialog.js';
+import { initConfirmDialog } from '../components/confirm-dialog.js';
 import { showToast } from '../components/toast.js';
 import { ApiError } from '../services/httpClient.js';
+
+const ESTADOS_ASISTENCIA = ['PRESENTE', 'AUSENTE', 'JUSTIFICADO'];
+const ESTADO_LABEL = { PRESENTE: 'Presente', AUSENTE: 'Ausente', JUSTIFICADO: 'Justificada' };
 
 const session = bootApp({ currentPage: 'admin-alumno', requiredRole: 'ADMINISTRADOR', screenTitle: 'Alumno' });
 const idAlumno = new URLSearchParams(window.location.search).get('id');
@@ -29,9 +35,6 @@ async function init() {
     errorEl.hidden = false;
     return;
   }
-
-  renderCard(alumno);
-  renderHistory(alumno);
 
   initJustifyDialog({
     studentName: `${alumno.nombre} ${alumno.apellido}`,
@@ -68,16 +71,61 @@ async function init() {
     },
   });
 
+  const reincorporateDialog = initReincorporateDialog({
+    onConfirm: async (cantidad) => {
+      await alumnoService.reincorporar(idAlumno, cantidad);
+      alumno = await alumnoService.getUno(idAlumno);
+      renderCard(alumno);
+      renderHistory(alumno);
+      showToast('Alumno reincorporado con éxito');
+    },
+  });
+
+  const bajaDialog = initConfirmDialog({
+    backdropId: 'confirm-baja-backdrop',
+    titleId: 'confirm-baja-title',
+    messageId: 'confirm-baja-message',
+    errorId: 'confirm-baja-error',
+    cancelBtnId: 'confirm-baja-cancel-btn',
+    confirmBtnId: 'confirm-baja-confirm-btn',
+  });
+
+  document.getElementById('baja-student-open-btn').addEventListener('click', () => {
+    bajaDialog?.open({
+      title: 'Dar de baja alumno',
+      message: `¿Confirmás dar de baja a ${alumno.nombre} ${alumno.apellido}? Es una baja lógica, se puede reasignar más adelante desde el backend.`,
+      onConfirm: async () => {
+        await alumnoService.eliminar(idAlumno);
+        showToast('Alumno dado de baja con éxito');
+        window.location.href = './alumnos.html';
+      },
+    });
+  });
+
+  // Recién acá, con todos los diálogos ya inicializados (reincorporateDialog
+  // y bajaDialog incluidos), se dispara el primer render — renderCard usa
+  // reincorporateDialog y explotaba con "Cannot access before initialization"
+  // cuando este render corría antes de esa asignación.
+  renderCard(alumno);
+  renderHistory(alumno);
+
   function renderCard(a) {
-    const estado = estadoFor(a.inAsistencias);
+    const estado = estadoFor(a.inAsistencias, a.limiteFaltasEfectivo, a.avisoFaltasEfectivo);
     cardEl.innerHTML = `
       <div class="card-title">${a.nombre} ${a.apellido}</div>
       <div class="card-body">${a.curso?.nombre ?? ''}</div>
       <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
         <span class="${estado.tagClass}">${estado.label}</span>
-        <span class="text-muted" style="font-size:12px">${a.inAsistencias} faltas registradas</span>
+        <span class="text-muted" style="font-size:12px">${a.inAsistencias}/${a.limiteFaltasEfectivo} faltas registradas</span>
       </div>
     `;
+    // "Reincorporar" sólo tiene sentido para un alumno que llegó/superó su
+    // límite EFECTIVO (base + lo ya otorgado por reincorporaciones previas)
+    // — mismo criterio que estadoFor() usa para marcarlo "Excedido" en
+    // Alumnos/Alertas. Antes comparaba contra ATTENDANCE_LIMIT fijo, así que
+    // un alumno ya reincorporado con cupo otorgado seguía mostrando el botón
+    // apenas pasaba las 15 faltas base, aunque su límite real fuera más alto.
+    reincorporateDialog?.setVisible(a.inAsistencias >= a.limiteFaltasEfectivo);
   }
 
   function renderHistory(a) {
@@ -86,20 +134,38 @@ async function init() {
       historyEl.innerHTML = '<p class="list-row-empty">Sin registros de asistencia todavía.</p>';
       return;
     }
-    // TODO: AsistenciaResponse no devuelve el estado (Presente/Ausente/
-    // Justificado) de cada registro, sólo fecha/observación/asistente —
-    // ver Mappers/AsistenciaMapper.toResponse en el backend. Por eso acá
-    // no se puede mostrar el tag de estado que tenía el mockup por fila;
-    // se muestra lo que la API sí devuelve.
     historyEl.innerHTML = registros
       .slice()
       .sort((r1, r2) => new Date(r2.fecha) - new Date(r1.fecha))
       .map((r) => `
         <div class="list-row">
-          <span>${r.fecha}</span>
-          <span class="text-muted" style="font-size:12px">${r.observacion ?? r.nombreAsistente ?? ''}</span>
+          <div>
+            <div>${r.fecha}</div>
+            <span class="text-muted" style="font-size:12px">${r.observacion ?? r.nombreAsistente ?? ''}</span>
+          </div>
+          <select class="input" style="width:auto" data-id="${r.id}">
+            ${ESTADOS_ASISTENCIA.map((e) => `<option value="${e}" ${e === r.estadoAsistencia ? 'selected' : ''}>${ESTADO_LABEL[e]}</option>`).join('')}
+          </select>
         </div>
       `)
       .join('');
+
+    historyEl.querySelectorAll('select[data-id]').forEach((select) => {
+      select.addEventListener('change', async () => {
+        const idAsistencia = Number(select.dataset.id);
+        const estado = select.value;
+        select.disabled = true;
+        try {
+          await asistenciaService.actualizarEstado(idAsistencia, estado);
+          alumno = await alumnoService.getUno(idAlumno);
+          renderCard(alumno);
+          renderHistory(alumno);
+          showToast('Estado de asistencia actualizado');
+        } catch (err) {
+          showToast(err instanceof ApiError ? err.message : 'No se pudo actualizar el estado.');
+          renderHistory(alumno);
+        }
+      });
+    });
   }
 }

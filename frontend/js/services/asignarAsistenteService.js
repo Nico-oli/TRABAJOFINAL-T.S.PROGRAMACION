@@ -14,4 +14,11 @@ export const asignarAsistenteService = {
   quitar(idUsuario, idCurso) {
     return http.delete(`/admin/usuario/${idUsuario}/curso/${idCurso}`);
   },
+
+  // DELETE /api/admin/usuario/{idUsuario} — baja lógica de un asistente.
+  // El backend rechaza con 400 si todavía tiene cursos asignados (hay que
+  // desasignarlos antes, mismo criterio que cursoService.darDeBaja).
+  darDeBaja(idUsuario) {
+    return http.delete(`/admin/usuario/${idUsuario}`);
+  },
 };

@@ -44,7 +44,9 @@
       <div class="card" id="student-card" style="margin:var(--space-3) 0 var(--space-4)"></div>
 
       <button class="btn btn-primary btn-block" id="justify-open-btn" style="margin-bottom:var(--space-2)">Justificar falta</button>
-      <button class="btn btn-secondary btn-block" id="edit-student-open-btn" style="margin-bottom:var(--space-5)">Editar alumno</button>
+      <button class="btn btn-secondary btn-block" id="edit-student-open-btn" style="margin-bottom:var(--space-2)">Editar alumno</button>
+      <button class="btn btn-secondary btn-block" id="reincorporate-open-btn" style="margin-bottom:var(--space-2)" hidden>Reincorporar</button>
+      <button class="btn btn-secondary btn-block" id="baja-student-open-btn" style="margin-bottom:var(--space-5)">Dar de baja</button>
 
       <div class="section-label">Historial reciente</div>
       <div id="student-history"></div>
@@ -88,6 +90,37 @@
     <div class="dialog-actions">
       <button class="btn btn-secondary" id="edit-student-cancel-btn">Cancelar</button>
       <button class="btn btn-primary" id="edit-student-confirm-btn">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="dialog-backdrop" id="reincorporate-backdrop" hidden>
+  <div class="dialog">
+    <div class="dialog-title">Reincorporar</div>
+    <p id="reincorporate-error" class="text-muted" style="color:var(--color-accent-800);font-size:13px" hidden></p>
+    <div class="field">
+      <label>Cantidad de faltas adicionales a otorgar</label>
+      <div style="display:flex;gap:var(--space-2)">
+        <button type="button" class="btn btn-secondary" id="reincorporate-cantidad-5" data-cantidad="5" style="flex:1">5</button>
+        <button type="button" class="btn btn-secondary" id="reincorporate-cantidad-10" data-cantidad="10" style="flex:1">10</button>
+        <button type="button" class="btn btn-secondary" id="reincorporate-cantidad-15" data-cantidad="15" style="flex:1">15</button>
+      </div>
+    </div>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" id="reincorporate-cancel-btn">Cancelar</button>
+      <button class="btn btn-primary" id="reincorporate-confirm-btn" disabled>Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div class="dialog-backdrop" id="confirm-baja-backdrop" hidden>
+  <div class="dialog">
+    <div class="dialog-title" id="confirm-baja-title">Dar de baja</div>
+    <div class="dialog-body" id="confirm-baja-message"></div>
+    <p id="confirm-baja-error" class="text-muted" style="color:var(--color-accent-800);font-size:13px" hidden></p>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" id="confirm-baja-cancel-btn">Cancelar</button>
+      <button class="btn btn-primary" id="confirm-baja-confirm-btn">Confirmar</button>
     </div>
   </div>
 </div>

@@ -2,7 +2,6 @@ import { bootApp } from '../app.js';
 import { cursoService } from '../services/cursoService.js';
 import { alumnoService } from '../services/alumnoService.js';
 import { renderStatTile } from '../components/stat-tile.js';
-import { ATTENDANCE_LIMIT } from '../services/apiConfig.js';
 import { ApiError } from '../services/httpClient.js';
 
 // TODO: el mockup de diseño calcula "Asistencia prom." como
@@ -56,11 +55,15 @@ async function init() {
 
       rowsEl.innerHTML = roster
         .map((a) => {
-          const pct = Math.min(100, Math.round((a.inAsistencias / ATTENDANCE_LIMIT) * 100));
+          // limiteFaltasEfectivo viene del backend por alumno (límite base +
+          // faltasAdicionalesOtorgadas por reincorporación) — antes esto
+          // usaba ATTENDANCE_LIMIT fijo, así que un alumno reincorporado con
+          // +5/+10/+15 seguía mostrando "X/15" en vez de su límite real.
+          const pct = Math.min(100, Math.round((a.inAsistencias / a.limiteFaltasEfectivo) * 100));
           return `
             <div class="report-row">
               <div class="report-row-head">
-                <span>${a.nombre} ${a.apellido}</span><span>${a.inAsistencias}/${ATTENDANCE_LIMIT}</span>
+                <span>${a.nombre} ${a.apellido}</span><span>${a.inAsistencias}/${a.limiteFaltasEfectivo}</span>
               </div>
               <div class="progress"><span style="width:${pct}%"></span></div>
             </div>

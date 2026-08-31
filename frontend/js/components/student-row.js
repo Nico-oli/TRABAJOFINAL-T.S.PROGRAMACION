@@ -1,11 +1,19 @@
-import { ATTENDANCE_LIMIT, ATTENDANCE_WARN } from '../services/apiConfig.js';
-
+// El backend es la única fuente de verdad del límite de faltas de cada
+// alumno: AlumnoResponse trae limiteFaltasEfectivo/avisoFaltasEfectivo ya
+// calculados (límite/aviso base + faltasAdicionalesOtorgadas por
+// reincorporación paga — ver AlumnoFaltasService). Antes acá se comparaba
+// contra ATTENDANCE_LIMIT/ATTENDANCE_WARN, constantes fijas en
+// apiConfig.js que ignoraban por completo el cupo otorgado por
+// reincorporación (un alumno reincorporado con +5 seguía viéndose
+// "Excedido" a las 15 faltas en vez de a las 20). Ya no se usan esas
+// constantes en ningún lado del frontend.
+//
 // Fiel al mockup: no hay token ámbar en el sistema "Industry" (ver
 // variables.css), así que "En riesgo"/"Excedido" usan variantes del
 // mismo azul-grisáceo de acento en vez de un color de warning nuevo.
-export function estadoFor(inAsistencias) {
-  if (inAsistencias >= ATTENDANCE_LIMIT) return { label: 'Excedido', tagClass: 'tag tag-accent' };
-  if (inAsistencias >= ATTENDANCE_WARN) return { label: 'En riesgo', tagClass: 'tag tag-outline' };
+export function estadoFor(inAsistencias, limiteFaltasEfectivo, avisoFaltasEfectivo) {
+  if (inAsistencias >= limiteFaltasEfectivo) return { label: 'Excedido', tagClass: 'tag tag-accent' };
+  if (inAsistencias >= avisoFaltasEfectivo) return { label: 'En riesgo', tagClass: 'tag tag-outline' };
   return { label: 'Regular', tagClass: 'tag tag-neutral' };
 }
 
@@ -19,10 +27,10 @@ export function estadoFor(inAsistencias) {
 // checkbox a la izquierda. Sin `selectable`, el comportamiento es idéntico
 // al de siempre — no afecta a curso.html ni a ningún otro caller existente.
 export function renderStudentRow({
-  nombre, apellido, courseName, inAsistencias, href,
+  nombre, apellido, courseName, inAsistencias, limiteFaltasEfectivo, avisoFaltasEfectivo, href,
   selectable = false, selected = false, onToggleSelect,
 }) {
-  const estado = estadoFor(inAsistencias);
+  const estado = estadoFor(inAsistencias, limiteFaltasEfectivo, avisoFaltasEfectivo);
 
   const row = document.createElement(selectable ? 'div' : 'a');
   row.className = 'list-row' + (selectable ? '' : ' list-row-clickable');

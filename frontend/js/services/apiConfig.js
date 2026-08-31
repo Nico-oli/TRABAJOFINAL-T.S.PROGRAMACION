@@ -10,7 +10,7 @@
 // CORS_ALLOWED_ORIGINS) — este archivo no puede tocar esa configuración.
 
 const ENVIRONMENTS = {
-  local: 'http://localhost:8080/api',
+  local: 'http://localhost:8081/api',
   // TODO: reemplazar por la URL real una vez que el backend esté desplegado.
   produccion: 'https://TODO-completar-url-produccion/api',
 };
@@ -19,15 +19,12 @@ const ACTIVE_ENV = 'local';
 
 export const API_BASE_URL = ENVIRONMENTS[ACTIVE_ENV];
 
-// Reglas de inasistencias — reflejan application.properties
-// (app.alumno.limite-faltas / app.alumno.faltas-aviso). El backend no
-// expone un endpoint para consultarlas, así que se mantienen
-// sincronizadas acá a mano.
-export const ATTENDANCE_LIMIT = 15;
-export const ATTENDANCE_WARN = 12;
-
-// TODO: application.properties también define un segundo umbral
-// ("faltas adicionales": límite 20, aviso 17) y AlumnoActualizarRequest
-// expone un campo `adicional`. El mockup de diseño no tiene ninguna
-// pantalla ni estado visual para ese segundo nivel, así que no se
-// implementa acá para no improvisar sobre el diseño fuente.
+// Reglas de inasistencias: NO se hardcodean acá. AlumnoResponse trae
+// limiteFaltasEfectivo/avisoFaltasEfectivo ya calculados por alumno (límite
+// base de application.properties + faltasAdicionalesOtorgadas por
+// reincorporación paga — ver AlumnoFaltasService en el backend). Antes este
+// archivo exportaba ATTENDANCE_LIMIT/ATTENDANCE_WARN fijos en 15/12, que
+// ignoraban el cupo otorgado por reincorporación: un alumno reincorporado
+// con +5 seguía viéndose "Excedido"/"15 faltas" en vez de "15/20". Usar
+// siempre los campos que vienen en cada AlumnoResponse, nunca un valor fijo
+// acá.

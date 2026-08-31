@@ -107,6 +107,8 @@ function render(students) {
         apellido: a.apellido,
         courseName: a.courseName,
         inAsistencias: a.inAsistencias,
+        limiteFaltasEfectivo: a.limiteFaltasEfectivo,
+        avisoFaltasEfectivo: a.avisoFaltasEfectivo,
         href: `./alumno.html?id=${a.id}`,
         selectable: selectMode,
         selected: selectedIds.has(a.id),

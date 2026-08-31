@@ -43,6 +43,11 @@
 
       <div class="card" id="course-card" style="margin:var(--space-3) 0 var(--space-4)"></div>
 
+      <div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-4)">
+        <button class="btn btn-secondary" id="edit-course-open-btn">Editar curso</button>
+        <button class="btn btn-secondary" id="baja-course-open-btn">Dar de baja</button>
+      </div>
+
       <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-3)">
         <div class="section-label">Alumnos del curso</div>
         <button class="btn btn-primary" id="new-student-open-btn">+ Añadir alumno</button>
@@ -79,6 +84,45 @@
     <div class="dialog-actions">
       <button class="btn btn-secondary" id="student-form-cancel-btn">Cancelar</button>
       <button class="btn btn-primary" id="student-form-confirm-btn">Crear</button>
+    </div>
+  </div>
+</div>
+
+<div class="dialog-backdrop" id="edit-course-backdrop" hidden>
+  <div class="dialog">
+    <div class="dialog-title">Editar curso</div>
+    <p id="edit-course-error" class="text-muted" style="color:var(--color-accent-800);font-size:13px" hidden></p>
+    <div class="field">
+      <label for="edit-course-nombre">Nombre</label>
+      <input class="input" id="edit-course-nombre">
+    </div>
+    <div class="field">
+      <label for="edit-course-anio">Año lectivo</label>
+      <input class="input" id="edit-course-anio" type="number" min="1" max="7">
+    </div>
+    <div class="field">
+      <label for="edit-course-turno">Turno</label>
+      <input class="input" id="edit-course-turno" placeholder="Mañana, Tarde...">
+    </div>
+    <div class="field">
+      <label>Preceptores asignados</label>
+      <div id="edit-course-asistentes" style="max-height:260px;overflow-y:auto"></div>
+    </div>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" id="edit-course-cancel-btn">Cancelar</button>
+      <button class="btn btn-primary" id="edit-course-confirm-btn">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="dialog-backdrop" id="confirm-baja-backdrop" hidden>
+  <div class="dialog">
+    <div class="dialog-title" id="confirm-baja-title">Dar de baja</div>
+    <div class="dialog-body" id="confirm-baja-message"></div>
+    <p id="confirm-baja-error" class="text-muted" style="color:var(--color-accent-800);font-size:13px" hidden></p>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" id="confirm-baja-cancel-btn">Cancelar</button>
+      <button class="btn btn-primary" id="confirm-baja-confirm-btn">Confirmar</button>
     </div>
   </div>
 </div>

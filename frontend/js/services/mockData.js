@@ -31,6 +31,12 @@ const CURSOS = [
   { id: 3, nombre: 'Sexto Año C', anioLectivo: 6, turno: 'Mañana', asistentes: ['Gómez'] },
 ];
 
+// Mismos valores base que application.properties (app.alumno.limite-faltas /
+// app.alumno.faltas-aviso) — sólo para que el modo preview arme
+// limiteFaltasEfectivo/avisoFaltasEfectivo igual que el backend real.
+const LIMITE_FALTAS_BASE = 15;
+const FALTAS_AVISO_BASE = 12;
+
 // Mismo dataset de demo que el mockup original (Attendance App.dc.html),
 // para que el modo preview se vea igual de poblado que el diseño fuente.
 const ALUMNOS = [
@@ -76,6 +82,7 @@ function buildHistorial(alumno) {
 }
 
 function toAlumnoResponse(alumno, { conAsistencias = false } = {}) {
+  const otorgadas = alumno.faltasAdicionalesOtorgadas ?? 0;
   return {
     id: alumno.id,
     nombre: alumno.nombre,
@@ -84,6 +91,9 @@ function toAlumnoResponse(alumno, { conAsistencias = false } = {}) {
     fechaNacimiento: alumno.fechaNacimiento,
     inAsistencias: alumno.inAsistencias,
     asistencias: conAsistencias ? buildHistorial(alumno) : null,
+    faltasAdicionalesOtorgadas: otorgadas,
+    limiteFaltasEfectivo: LIMITE_FALTAS_BASE + otorgadas,
+    avisoFaltasEfectivo: FALTAS_AVISO_BASE + otorgadas,
   };
 }
 

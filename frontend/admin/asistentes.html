@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Asistentes · Asistencia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <div class="app-content">
+    <div class="app-deco-layer" aria-hidden="true">
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <path id="asistentes-deco-scribble" d="M20,40 C60,10 110,18 118,55 C124,82 90,96 76,72 C66,54 88,42 98,58" />
+        </defs>
+      </svg>
+      <svg class="app-deco app-deco-tr" viewBox="0 0 220 220" focusable="false">
+        <use href="#asistentes-deco-scribble" />
+      </svg>
+      <svg class="app-deco app-deco-bl" viewBox="0 0 220 220" focusable="false">
+        <use href="#asistentes-deco-scribble" />
+      </svg>
+    </div>
+
+    <header class="app-header">
+      <div class="app-header-brand">
+        <div class="kicker">Asistencia</div>
+        <h2 id="app-header-title"></h2>
+      </div>
+      <span id="app-header-role" class="tag"></span>
+      <nav class="tab-bar" id="tab-bar"></nav>
+    </header>
+    <main class="app-main app-main-wide app-main-alumnos">
+      <button class="btn btn-primary btn-block" id="new-assistant-open-btn" style="margin-bottom:var(--space-3)">+ Nuevo asistente</button>
+      <p id="assistant-list-error" class="text-muted" style="color:var(--color-accent-800)" hidden></p>
+      <div id="assistant-list"></div>
+    </main>
+  </div>
+</div>
+
+<div class="dialog-backdrop" id="assistant-form-backdrop" hidden>
+  <div class="dialog">
+    <div class="dialog-title">Nuevo asistente</div>
+    <p id="assistant-form-error" class="text-muted" style="color:var(--color-accent-800);font-size:13px" hidden></p>
+    <div class="field">
+      <label for="assistant-form-nombre">Nombre</label>
+      <input class="input" id="assistant-form-nombre" placeholder="Ej: Matias">
+    </div>
+    <div class="field">
+      <label for="assistant-form-apellido">Apellido</label>
+      <input class="input" id="assistant-form-apellido" placeholder="Ej: Roberto">
+    </div>
+    <div class="field">
+      <label for="assistant-form-email">Email</label>
+      <input class="input" id="assistant-form-email" type="email" placeholder="asistente@institucion.edu.ar">
+    </div>
+    <div class="field">
+      <label for="assistant-form-password">Contraseña</label>
+      <input class="input" id="assistant-form-password" type="password" placeholder="Mínimo 8 caracteres">
+    </div>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" id="assistant-form-cancel-btn">Cancelar</button>
+      <button class="btn btn-primary" id="assistant-form-confirm-btn">Crear</button>
+    </div>
+  </div>
+</div>
+
+<div class="dialog-backdrop" id="assign-courses-backdrop" hidden>
+  <div class="dialog">
+    <div class="dialog-title">Asignar cursos</div>
+    <p class="list-row-subtitle" id="assign-courses-name" style="margin-bottom:var(--space-2)"></p>
+    <p id="assign-courses-error" class="text-muted" style="color:var(--color-accent-800);font-size:13px" hidden></p>
+    <div id="assign-courses-list" style="max-height:320px;overflow-y:auto"></div>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" id="assign-courses-cancel-btn">Cancelar</button>
+      <button class="btn btn-primary" id="assign-courses-confirm-btn">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="dialog-backdrop" id="confirm-baja-backdrop" hidden>
+  <div class="dialog">
+    <div class="dialog-title" id="confirm-baja-title">Dar de baja</div>
+    <div class="dialog-body" id="confirm-baja-message"></div>
+    <p id="confirm-baja-error" class="text-muted" style="color:var(--color-accent-800);font-size:13px" hidden></p>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" id="confirm-baja-cancel-btn">Cancelar</button>
+      <button class="btn btn-primary" id="confirm-baja-confirm-btn">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script type="module" src="../js/pages/admin-asistentes.js"></script>
+</body>
+</html>

@@ -1,9 +1,14 @@
 import { http } from './httpClient.js';
 
 // AlumnoResponse: { id, nombre, apellido, curso: CursoResponse, fechaNacimiento,
-//   inAsistencias, asistencias: AsistenciaResponse[] | null }
+//   inAsistencias, asistencias: AsistenciaResponse[] | null,
+//   faltasAdicionalesOtorgadas, limiteFaltasEfectivo, avisoFaltasEfectivo }
 // `asistencias` sólo viene completo en getUno() (consulta puntual); en
 // getPorCurso() queda en null y sólo viaja el conteo `inAsistencias`.
+// limiteFaltasEfectivo/avisoFaltasEfectivo ya vienen calculados por el
+// backend (límite base + faltasAdicionalesOtorgadas por reincorporación) —
+// usar siempre estos campos para mostrar el límite de un alumno, nunca un
+// valor fijo en el frontend.
 export const alumnoService = {
   // GET /api/asistencias/alumno/curso/{idCurso}
   getPorCurso(idCurso) {
@@ -53,6 +58,14 @@ export const alumnoService = {
   // DELETE /api/admin/alumno/{idAlumno} — baja lógica
   eliminar(idAlumno) {
     return http.delete(`/admin/alumno/${idAlumno}`);
+  },
+
+  // POST /api/admin/alumno/{idAlumno}/reincorporar — { cantidadFaltasAdicionales: 5|10|15 }
+  // Acredita esa cantidad al cupo adicional acumulado del alumno (se suma a
+  // lo que ya tuviera otorgado) y lo reactiva. El backend rechaza con 400
+  // cualquier valor que no sea 5, 10 o 15.
+  reincorporar(idAlumno, cantidadFaltasAdicionales) {
+    return http.post(`/admin/alumno/${idAlumno}/reincorporar`, { cantidadFaltasAdicionales });
   },
 
   // Helper de UI: no hay un endpoint de resumen por curso, así que la
