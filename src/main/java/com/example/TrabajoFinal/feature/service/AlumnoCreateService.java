@@ -4,7 +4,6 @@ import com.example.TrabajoFinal.config.exceptions.BadRequestException;
 import com.example.TrabajoFinal.config.exceptions.ResourceNotFoundException;
 import com.example.TrabajoFinal.feature.Mappers.AlumnoMapper;
 import com.example.TrabajoFinal.feature.dtos.AlumnoRequest;
-import com.example.TrabajoFinal.feature.dtos.AlumnoResponse;
 import com.example.TrabajoFinal.feature.models.Alumno;
 import com.example.TrabajoFinal.feature.models.Curso;
 import com.example.TrabajoFinal.repository.AlumnoRepository;

@@ -10,13 +10,13 @@ public record AlumnoRequest(
         Long dni,
         @NotBlank(message = "El nombre debe ser completado")
         @Pattern(
-                regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+$",
+                regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+$",
                 message = "El nombre unicamente puede contener letras")
         @Size(max = 50, message = "El nombre debe tener menos de 50 caracteres")
         String nombre,
         @NotBlank(message = "El apellido debe ser completado")
         @Pattern(
-                regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+$",
+                regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+$",
                 message = "El apellido unicamente puede contener letras")
         @Size(max = 50, message = "El apellido debe tener menos de 50 caracteres")
         String apellido,

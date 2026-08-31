@@ -6,7 +6,6 @@ import com.example.TrabajoFinal.feature.service.IAsignarAsistenteService;
 import com.example.TrabajoFinal.feature.service.IUsuarioDeleteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

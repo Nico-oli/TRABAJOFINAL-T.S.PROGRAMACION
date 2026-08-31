@@ -8,7 +8,6 @@ import com.example.TrabajoFinal.feature.dtos.AlumnoResponse;
 import com.example.TrabajoFinal.feature.dtos.AsistenciaResponse;
 import com.example.TrabajoFinal.feature.models.Alumno;
 import com.example.TrabajoFinal.feature.models.Asistencia;
-import com.example.TrabajoFinal.feature.models.EstadoAsistencia;
 import com.example.TrabajoFinal.repository.AlumnoRepository;
 import com.example.TrabajoFinal.repository.AsistenciaRepository;
 import com.example.TrabajoFinal.repository.CursoRepository;
