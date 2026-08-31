@@ -10,6 +10,7 @@ import com.example.TrabajoFinal.feature.models.Usuario;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -35,8 +36,13 @@ public class AuthService {
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.email(), request.password())
             );
-        } catch (DisabledException e) {
-            throw new UnauthorizedException("El usuario se encuentra dado de baja.");
+        } catch (LockedException | DisabledException e) {
+            // Usuario.isAccountNonLocked()/isEnabled() devuelven ambos el
+            // mismo flag `activo`. Spring Security chequea isAccountNonLocked()
+            // primero (DefaultPreAuthenticationChecks), así que para un usuario
+            // dado de baja siempre tira LockedException, nunca DisabledException
+            // — se atrapan las dos igual por si en algún momento se desacoplan.
+            throw new UnauthorizedException("Tu cuenta fue dada de baja, contactá al administrador.");
         } catch (BadCredentialsException e) {
             throw new UnauthorizedException("Email o contraseña incorrectos.");
         }
