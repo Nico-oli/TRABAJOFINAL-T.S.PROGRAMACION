@@ -15,6 +15,7 @@ const TABS_ASISTENTE = [
 const TABS_ADMIN = [
   { label: 'Inicio', href: '../admin/inicio.html', matches: ['admin-inicio'] },
   { label: 'Cursos', href: '../admin/cursos.html', matches: ['admin-cursos', 'admin-curso', 'admin-alumnos', 'admin-alumno'] },
+  { label: 'Asistentes', href: '../admin/asistentes.html', matches: ['admin-asistentes'] },
   { label: 'Informes', href: '../admin/informes.html', matches: ['admin-informes'] },
   { label: 'Perfil', href: '../admin/perfil.html', matches: ['admin-perfil'] },
 ];

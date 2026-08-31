@@ -10,7 +10,7 @@
 // CORS_ALLOWED_ORIGINS) — este archivo no puede tocar esa configuración.
 
 const ENVIRONMENTS = {
-  local: 'http://localhost:8081/api',
+  local: 'http://localhost:8080/api',
   // TODO: reemplazar por la URL real una vez que el backend esté desplegado.
   produccion: 'https://TODO-completar-url-produccion/api',
 };
